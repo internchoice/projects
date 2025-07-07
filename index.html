@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InternChoice Projects – Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #401966;
+      --accent: #8CB29F;
+      --light-bg: #f7f8fc;
+      --dark-bg: #1b1c1f;
+      --light-card: rgba(255,255,255,0.9);
+      --dark-card: rgba(30,30,30,0.8);
+    }
+
+    * { box-sizing: border-box; }
+    body, html {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: var(--light-bg);
+      color: #333;
+      overflow: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+    [data-theme="dark"] body {
+      background: var(--dark-bg);
+      color: #ddd;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.25;
+      animation: blob 15s infinite;
+    }
+    @keyframes blob {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      25% { transform: translate(30vw, -10vh) scale(1.2); }
+      50% { transform: translate(-20vw, 20vh) scale(0.8); }
+      75% { transform: translate(10vw, -25vh) scale(1.1); }
+    }
+
+    .blob:nth-child(1) { width: 35vw; height: 35vw; top: -10%; left: -10%; animation-duration: 20s; }
+    .blob:nth-child(2) { width: 25vw; height: 25vw; bottom: -15%; right: -10%; animation-duration: 18s; }
+    .blob:nth-child(3) { width: 30vw; height: 30vw; top: 40%; right: -15%; animation-duration: 22s; }
+
+    .card {
+      position: relative; z-index: 10;
+      backdrop-filter: blur(20px);
+      background: var(--light-card);
+      max-width: 600px; width: 90%;
+      margin: auto; padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      text-align: center;
+      opacity: 0; animation: fadeIn 1.5s forwards ease-in-out;
+      transition: background 0.5s;
+    }
+    [data-theme="dark"] .card {
+      background: var(--dark-card);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .logo { max-width: 120px; margin-bottom: 1.5rem; }
+
+    h1 {
+      font-size: 2.5rem; margin-bottom: 0.5rem;
+      color: var(--primary); font-weight: 700;
+    }
+    .subtitle { font-size: 1.2rem; color: var(--accent); margin-bottom: 2rem; }
+
+    .countdown { font-size: 1.1rem; font-weight: 600; margin-bottom: 2rem; color: inherit; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-input {
+      width: 100%; padding: .75rem 1rem;
+      font-size: 1rem; border: none; border-radius: 50px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .form-input:focus { outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); }
+
+    .btn-submit {
+      padding: .75rem 2rem; font-size: 1rem;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 50px;
+      cursor: pointer; transition: background .3s;
+    }
+    .btn-submit:hover { background: var(--accent); }
+
+    .social-icons a {
+      margin: 0 .5rem; font-size: 1.2rem; color: inherit;
+      transition: color .3s;
+    }
+    .social-icons a:hover { color: var(--accent); }
+
+    .toggle-btn {
+      position: absolute; top: 20px; right: 20px;
+      font-size: 1.4rem; background: none; border: none;
+      color: inherit; cursor: pointer; z-index: 99;
+    }
+
+    footer { font-size: 0.8rem; opacity: 0.6; margin-top: 2rem; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .subtitle { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated blobs -->
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+
+  <!-- Dark mode toggle -->
+  <button class="toggle-btn" onclick="toggleTheme()"><span id="theme-icon">🌙</span></button>
+
+  <!-- Main card -->
+  <div class="card">
+    <img src="https://internchoice.com/logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+    <h1>Coming Soon</h1>
+    <p class="subtitle">A new portal for engineering student projects launches at <strong>projects.internchoice.com</strong></p>
+    <div class="countdown" id="countdown">Loading...</div>
+
+    <!-- Email signup -->
+    <div class="form-group">
+      <input type="email" class="form-input" placeholder="Your email address" />
+    </div>
+    <button class="btn-submit">Notify Me</button>
+
+    <!-- Social icons -->
+    <div class="social-icons mt-4">
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <footer>© 2025 InternChoice. All rights reserved.</footer>
+  </div>
+
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('theme-icon');
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      icon.textContent = isDark ? '🌙' : '☀️';
+    }
+
+    // Countdown
+    const cd = document.getElementById('countdown');
+    const target = new Date("2025-09-01T00:00:00").getTime();
+    setInterval(() => {
+      const now = Date.now(), diff = target - now;
+      if (diff <= 0) { cd.textContent = "We're Live!"; return; }
+      const d = Math.floor(diff/86400000), h = Math.floor(diff%86400000/3600000),
+            m = Math.floor(diff%3600000/60000), s = Math.floor(diff%60000/1000);
+      cd.textContent = `${d}d ${h}h ${m}m ${s}s`;
+    }, 1000);
+  </script>
+</body>
+</html>
