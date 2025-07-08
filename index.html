@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InternChoice Projects – Coming Soon</title>
+  <link rel="shortcut icon" href="https://internchoice.com/assets/img/intern_logo_t.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
@@ -94,7 +95,18 @@
 
     .logo {
       max-width: 120px;
-      margin-bottom: 1.5rem;
+      margin: 0 auto;
+      display: block;
+      vertical-align: middle;
+    }
+
+    .logo-dark {
+      max-width: 120px;
+      margin: 0 auto;
+      display: block;
+      vertical-align: middle;
+      width: 100px;
+      display: none;
     }
 
     h1 {
@@ -182,16 +194,21 @@
 
   <!-- Main Content -->
   <div class="card">
-    <img src="https://internchoice.com/logo.png" alt="Logo" class="logo" onerror="this.style.display='none'" />
+    <!-- Light Logo -->
+    <img src="https://internchoice.com/assets/img/intern_logo_t.png" alt="InternChoice Logo" class="logo" onerror="this.style.display='none'" id="light-logo" />
+    
+    <!-- Dark Logo -->
+    <img src="https://internchoice.com/assets/img/logo_t.png" alt="InternChoice Logo Dark" class="logo-dark" onerror="this.style.display='none'" id="dark-logo" />
+    
     <h1>Coming Soon</h1>
     <p class="subtitle">A new portal for engineering student projects launches at <strong>projects.internchoice.com</strong></p>
     <div class="countdown" id="countdown">Loading...</div>
 
     <!-- Social Links -->
     <div class="social-icons">
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-github"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="https://in.linkedin.com/company/internchoice" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/intern_choice/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/people/Intern-Choice/100090795922072/" target="_blank"><i class="fab fa-facebook"></i></a>
     </div>
 
     <footer>© 2025 InternChoice. All rights reserved.</footer>
@@ -203,15 +220,21 @@
       const html = document.documentElement;
       const icon = document.getElementById('theme-icon');
       const isDark = html.getAttribute('data-theme') === 'dark';
+      const lightLogo = document.getElementById('light-logo');
+      const darkLogo = document.getElementById('dark-logo');
 
       if (!isDark) {
         html.setAttribute('data-theme', 'dark');
         document.body.style.backgroundColor = "#000";
         icon.textContent = '☀️';
+        lightLogo.style.display = 'none';  // Hide light logo
+        darkLogo.style.display = 'block';  // Show dark logo
       } else {
         html.setAttribute('data-theme', 'light');
         document.body.style.backgroundColor = "var(--light-bg)";
         icon.textContent = '🌙';
+        lightLogo.style.display = 'block'; // Show light logo
+        darkLogo.style.display = 'none';   // Hide dark logo
       }
     }
 
