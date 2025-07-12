@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Signup - Intern Choice</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between p-5 bg-white shadow-md">
+    <div class="flex items-center space-x-2">
+      <img src="https://internchoice.com/assets/img/intern_logo_t.png" class="h-12 md:h-16 lg:h-20 w-auto" alt="Logo" />
+      <span class="text-xl md:text-2xl font-bold text-blue-700">Intern Choice</span>
+    </div>
+  </nav>
+
+  <!-- Auth Card -->
+  <section class="flex justify-center items-center min-h-screen px-5">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md space-y-6">
+      <div class="flex justify-center mb-4">
+        <button id="loginTab" class="w-1/2 py-2 text-center border-b-2 border-blue-600 font-semibold">Login</button>
+        <button id="signupTab" class="w-1/2 py-2 text-center border-b-2 border-transparent hover:border-blue-300">Signup</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-4">
+        <input type="email" placeholder="Email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <input type="password" placeholder="Password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Login</button>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" class="space-y-4 hidden">
+        <input type="text" placeholder="Full Name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <input type="email" placeholder="Email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <input type="password" placeholder="Password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <input type="password" placeholder="Confirm Password" class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
+        <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Signup</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Script for Toggle -->
+  <script>
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+
+    loginTab.addEventListener('click', () => {
+      loginForm.classList.remove('hidden');
+      signupForm.classList.add('hidden');
+      loginTab.classList.add('border-blue-600', 'font-semibold');
+      signupTab.classList.remove('border-blue-600', 'font-semibold');
+    });
+
+    signupTab.addEventListener('click', () => {
+      signupForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+      signupTab.classList.add('border-blue-600', 'font-semibold');
+      loginTab.classList.remove('border-blue-600', 'font-semibold');
+    });
+  </script>
+
+</body>
+</html>
