@@ -71,6 +71,7 @@
       border: none;
       border-radius: 30px;
       cursor: pointer;
+      position: relative;
     }
 
     .form-footer {
@@ -105,7 +106,7 @@
     .toggle-password {
       position: absolute;
       right: 15px;
-      top: 12px;
+      top: 22px;
       cursor: pointer;
       color: #666;
     }
@@ -166,6 +167,32 @@
       font-size: 1.4rem;
       cursor: pointer;
       color: #888;
+    }
+
+    /* Loading Spinner */
+    .button-loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .button-loading::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      border: 2px solid white;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      transform: translateY(-50%);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -281,6 +308,9 @@
     signupForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
+      const signupBtn = signupForm.querySelector('button[type="submit"]');
+      signupBtn.classList.add('button-loading');
+
       const name = document.getElementById('signup-name').value.trim();
       const email = document.getElementById('signup-email').value.trim();
       const phone = document.getElementById('signup-phone').value.trim();
@@ -289,6 +319,7 @@
 
       if (password !== confirm) {
         passwordError.textContent = "Passwords do not match!";
+        signupBtn.classList.remove('button-loading');
         return;
       }
 
@@ -320,11 +351,17 @@
           } else {
             alert("Signup failed: " + err.message);
           }
+        })
+        .finally(() => {
+          signupBtn.classList.remove('button-loading');
         });
     });
 
     loginForm.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      const loginBtn = loginForm.querySelector('button[type="submit"]');
+      loginBtn.classList.add('button-loading');
 
       const email = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
@@ -332,10 +369,13 @@
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
           alert("Login successful!");
-          window.location.href = 'profile.html';
+          window.location.href = 'dashboard.html';
         })
         .catch(err => {
           alert("Login failed: " + err.message);
+        })
+        .finally(() => {
+          loginBtn.classList.remove('button-loading');
         });
     });
 
@@ -356,7 +396,7 @@
               });
             }
           }).then(() => {
-            window.location.href = 'profile.html';
+            window.location.href = 'dashboard.html';
           });
         })
         .catch(err => {

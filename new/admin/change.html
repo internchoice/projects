@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Password Update | Intern Choice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 450px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 12px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #555;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Password Changer</h2>
+    <input type="email" id="userEmail" placeholder="User Email" />
+    
+    <div class="password-wrapper">
+      <input type="password" id="newPassword" placeholder="New Password" />
+      <span class="toggle-password" onclick="togglePassword()">👁️</span>
+    </div>
+
+    <button onclick="changePassword()">Change Password</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Track admin login
+    let adminEmail = "service.internchoice@gmail.com";
+    let originalAdmin = null;
+
+    // Sign in as admin first (optional: replace with a form)
+    auth.onAuthStateChanged(user => {
+      if (!user || user.email !== adminEmail) {
+        alert("Please log in as admin first.");
+        window.location.href = "login.html";
+      } else {
+        originalAdmin = user;
+        console.log("Admin authenticated:", user.email);
+      }
+    });
+
+    function togglePassword() {
+      const passInput = document.getElementById("newPassword");
+      passInput.type = passInput.type === "password" ? "text" : "password";
+    }
+
+    async function changePassword() {
+      const email = document.getElementById("userEmail").value.trim();
+      const newPass = document.getElementById("newPassword").value.trim();
+      const msg = document.getElementById("message");
+      msg.textContent = "";
+      msg.classList.remove("error");
+
+      if (!email || !newPass) {
+        msg.textContent = "All fields required!";
+        msg.classList.add("error");
+        return;
+      }
+
+      try {
+        // Step 1: Sign in as target user
+        const tempPass = prompt(`Enter current password of ${email} (for testing only):`);
+        const tempUserCred = await auth.signInWithEmailAndPassword(email, tempPass);
+        const tempUser = tempUserCred.user;
+
+        // Step 2: Update password
+        await tempUser.updatePassword(newPass);
+        msg.textContent = "Password updated successfully.";
+
+        // Step 3: Sign back in as admin
+        await auth.signOut();
+        await auth.signInWithEmailAndPassword(adminEmail, prompt("Re-enter admin password:"));
+      } catch (error) {
+        msg.textContent = "Error: " + error.message;
+        msg.classList.add("error");
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
