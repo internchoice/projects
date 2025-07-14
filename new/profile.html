@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Users | Intern Choice Admin</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 500;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>All Registered Users</h1>
+
+  <div class="status" id="status">Loading users...</div>
+
+  <table id="usersTable" style="display: none;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody id="usersBody"></tbody>
+  </table>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<!-- REPLACE YOUR <script> BLOCK with this -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+    authDomain: "ic-project-6989d.firebaseapp.com",
+    projectId: "ic-project-6989d",
+    storageBucket: "ic-project-6989d.appspot.com",
+    messagingSenderId: "90473196739",
+    appId: "1:90473196739:web:db4e82108c0355a2fb0676",
+    measurementId: "G-WWH1GZZDKX"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  const usersBody = document.getElementById('usersBody');
+  const usersTable = document.getElementById('usersTable');
+  const status = document.getElementById('status');
+
+  auth.onAuthStateChanged(user => {
+    if (user && user.email === "service.internchoice@gmail.com") {
+      // Load user data from Firestore
+      db.collection("users").orderBy("createdAt", "desc").get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            status.textContent = "No users found.";
+            return;
+          }
+
+          usersTable.style.display = 'table';
+          status.style.display = 'none';
+
+          snapshot.forEach(doc => {
+            const user = doc.data();
+            const createdAt = user.createdAt?.toDate().toLocaleString() || "N/A";
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${user.name || '-'}</td>
+              <td>${user.email || '-'}</td>
+              <td>${user.phone || '-'}</td>
+              <td>${createdAt}</td>
+            `;
+            usersBody.appendChild(row);
+          });
+        })
+        .catch(err => {
+          status.textContent = "Error fetching data: " + err.message;
+          console.error(err);
+        });
+    } else {
+      status.textContent = "Access denied: Admin only.";
+    }
+  });
+</script>
+
+</body>
+</html>

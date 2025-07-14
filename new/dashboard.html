@@ -7,20 +7,46 @@
   <title>Dashboard | Intern Choice Projects</title>
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <style>
+    .dashboard-container {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: var(--card-bg, #fff);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .logout-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Theme Toggle -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
-  <!-- Navbar -->
   <nav>
     <div class="logo-container">
       <a href="index.html">
@@ -28,30 +54,31 @@
         <img src="assets/img/logo_t.png" alt="Logo Dark" class="logo-dark" />
       </a>
     </div>
+
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+
     <div class="nav-links" id="nav-links">
       <a href="index.html">Home</a>
       <a href="domain.html">Domains</a>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
-      <a href="#" onclick="logout()" class="btn">Logout</a>
+      <a href="login.html" class="btn">Login / Signup</a>
     </div>
   </nav>
 
-  <!-- Dashboard Section -->
-  <!-- <section class="max-w-4xl mx-auto mt-20 bg-white shadow-lg p-8 rounded-lg text-center"> -->
-    <section class="max-w-4xl mx-auto mt-20 bg-white dark:bg-[#1f2937] shadow-lg p-8 rounded-lg text-center text-gray-800 dark:text-gray-100">
+  <div class="dashboard-container">
+    <h1>Welcome to Your Dashboard</h1>
+    <p id="user-info">Loading user info...</p>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
 
-    <h1 class="text-3xl font-semibold mb-4">Welcome to Your Dashboard</h1>
-    <p class="text-gray-700 text-lg" id="user-info">Loading user info...</p>
-  </section>
-
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
 
-  <!-- JS Logic -->
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
@@ -62,29 +89,28 @@
       appId: "1:90473196739:web:db4e82108c0355a2fb0676",
       measurementId: "G-WWH1GZZDKX"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Restrict access if not logged in
     auth.onAuthStateChanged(user => {
       if (user) {
-        if (!user.emailVerified) {
-          alert("Please verify your email first.");
-          auth.signOut().then(() => window.location.href = 'login.html');
-        } else {
-          document.getElementById('user-info').textContent =
-            `Name: ${user.displayName || 'No Name'}, Email: ${user.email}`;
-        }
+        document.getElementById('user-info').textContent =
+          `Name: ${user.displayName || 'No Name'}, Email: ${user.email}`;
       } else {
         window.location.href = 'login.html';
       }
     });
 
     function logout() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = 'login.html';
-      });
+      auth.signOut().then(() => window.location.href = 'login.html');
     }
+
+    // Theme Toggle
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('theme-dark');
+    });
   </script>
   <script src="assets/js/script.js"></script>
 </body>
