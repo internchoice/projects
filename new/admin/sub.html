@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subdomains | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .search-bar {
+      max-width: 400px;
+      margin: 30px auto 20px;
+      text-align: center;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: 1px solid var(--shadow);
+      border-radius: 30px;
+      background: var(--card-bg);
+      color: var(--text-color);
+      transition: border 0.3s;
+    }
+
+    .subdomain-section {
+      display: none;
+      padding: 40px 20px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .subdomain-section.active {
+      display: block;
+    }
+
+    .subdomain-section h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .project-list {
+      max-width: 800px;
+      margin: auto;
+      background: var(--card-bg);
+      color: var(--text-color);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .project-item {
+      margin-bottom: 14px;
+      padding: 12px;
+      border-bottom: 1px solid var(--shadow);
+      font-size: 1.05rem;
+    }
+    .project-item:last-child {
+      border-bottom: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .project-item.hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Theme toggle -->
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="btn">Login / Signup</a>
+    </div>
+  </nav>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" id="project-search" placeholder="Search projects...">
+  </div>
+
+  <!-- Subdomain Sections -->
+  <section id="iot" class="subdomain-section">
+    <h2>Internet of Things (IoT)</h2>
+    <div class="project-list">
+      <div class="project-item">Smart Agriculture Monitoring</div>
+      <div class="project-item">Home Automation System</div>
+      <div class="project-item">Wearable Health Tracker</div>
+    </div>
+  </section>
+
+  <section id="machinelearning" class="subdomain-section">
+    <h2>Machine Learning Projects</h2>
+    <div class="project-list">
+      <div class="project-item">Student Performance Prediction</div>
+      <div class="project-item">Spam Mail Detection</div>
+      <div class="project-item">Image Classification with CNN</div>
+    </div>
+  </section>
+
+  <section id="web" class="subdomain-section">
+    <h2>Web Development Projects</h2>
+    <div class="project-list">
+      <div class="project-item">E-commerce Website in React</div>
+      <div class="project-item">Portfolio with CMS</div>
+      <div class="project-item">Online Food Delivery Platform</div>
+    </div>
+  </section>
+
+  <section id="app" class="subdomain-section">
+    <h2>App Development Projects</h2>
+    <div class="project-list">
+      <div class="project-item">Cross‑Platform Chat App</div>
+      <div class="project-item">Fitness Tracker App</div>
+      <div class="project-item">Ride Sharing Application</div>
+    </div>
+  </section>
+
+  <section id="cybersecurity" class="subdomain-section">
+    <h2>Cybersecurity Projects</h2>
+    <div class="project-list">
+      <div class="project-item">Network Intrusion Detection System</div>
+      <div class="project-item">Web Application Penetration Testing</div>
+      <div class="project-item">Secure File Sharing Platform</div>
+    </div>
+  </section>
+
+  <section id="blockchain" class="subdomain-section">
+    <h2>Blockchain Projects</h2>
+    <div class="project-list">
+      <div class="project-item">Supply Chain Tracking on Blockchain</div>
+      <div class="project-item">NFT Marketplace Platform</div>
+      <div class="project-item">Decentralized Voting System</div>
+    </div>
+  </section>
+
+  <section id="ai" class="subdomain-section">
+    <h2>AI & ML Projects</h2>
+    <div class="project-list">
+      <div class="project-item">AI Chatbot Assistant</div>
+      <div class="project-item">Voice Recognition System</div>
+      <div class="project-item">Sentiment Analysis Model</div>
+    </div>
+  </section>
+
+  <section id="datascience" class="subdomain-section">
+    <h2>Data Science Projects</h2>
+    <div class="project-list">
+      <div class="project-item">Customer Segmentation Analysis</div>
+      <div class="project-item">Sales Forecasting Dashboard</div>
+      <div class="project-item">Exploratory Data Analysis Tutorial</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    // Theme toggle and nav toggle assumed inside script.js
+
+    // Show only hashed section on load and hash change
+    function showSection() {
+      const hash = window.location.hash.replace('#', '');
+      document.querySelectorAll('.subdomain-section').forEach(section => {
+        section.classList.toggle('active', section.id === hash);
+      });
+    }
+    window.addEventListener('DOMContentLoaded', showSection);
+    window.addEventListener('hashchange', showSection);
+
+    // Project-search filter within active section
+    const searchInput = document.getElementById('project-search');
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      const active = document.querySelector('.subdomain-section.active .project-list');
+      if (!active) return;
+      active.querySelectorAll('.project-item').forEach(item => {
+        item.classList.toggle('hide', !item.textContent.toLowerCase().includes(term));
+      });
+    });
+  </script>
+</body>
+</html>

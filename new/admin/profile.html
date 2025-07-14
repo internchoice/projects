@@ -53,25 +53,6 @@
       margin-bottom: 20px;
     }
 
-    /* Additional styling for dark theme */
-    /* .theme-dark {
-      background-color: #2b2b2b;
-      color: white;
-    }
-
-    .theme-dark table {
-      background-color: #3c3c3c;
-    }
-
-    .theme-dark th {
-      background-color: #1a73e8;
-    }
-
-    .theme-dark td, .theme-dark th {
-      border-color: #555;
-    } */
-
-    /* Mask password by default, show on hover */
     .password-cell {
       position: relative;
     }
@@ -83,13 +64,14 @@
 
     .password-cell:hover::before {
       content: attr(data-password);
-      color: red;  /* You can change the color if needed */
+      color: red;
     }
   </style>
 </head>
 <body>
 
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
   <!-- Navbar -->
   <nav>
     <div class="logo-container">
@@ -98,11 +80,11 @@
     </div>
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
     <div class="nav-links" id="nav-links">
-      <a href="index.html">Home</a>
+      <a href="dashboard.html">Home</a>
       <a href="domain.html">Domains</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html" class="btn">Login / Signup</a>
+      <a href="profile.html">Profile</a>
+     
+      <a href="login.html" class="btn" id="authButton">Login / Signup</a>
     </div>
   </nav>
 
@@ -144,60 +126,72 @@
     const usersTable = document.getElementById('usersTable');
     const tableHeaders = document.getElementById('tableHeaders');
     const status = document.getElementById('status');
+    const authButton = document.getElementById('authButton');
 
     auth.onAuthStateChanged(user => {
-      if (user && user.email === "service.internchoice@gmail.com") {
-        db.collection("users").orderBy("createdAt", "desc").get()
-          .then(snapshot => {
-            if (snapshot.empty) {
-              status.textContent = "No users found.";
-              return;
-            }
+      if (user) {
+        // Admin data display
+        if (user.email === "service.internchoice@gmail.com") {
+          db.collection("users").orderBy("createdAt", "desc").get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                status.textContent = "No users found.";
+                return;
+              }
 
-            usersTable.style.display = 'table';
-            status.style.display = 'none';
+              usersTable.style.display = 'table';
+              status.style.display = 'none';
 
-            // Get the first document's data to dynamically create the headers
-            const firstDoc = snapshot.docs[0].data();
-            const headers = Object.keys(firstDoc);
-
-            // Exclude the 'createdAt' and 'uid' fields
-            const filteredHeaders = headers.filter(header => header !== 'createdAt' && header !== 'uid');
-
-            // Set table headers based on available keys (excluding 'createdAt' and 'uid')
-            tableHeaders.innerHTML = '';
-            filteredHeaders.forEach(header => {
-              const th = document.createElement('th');
-              th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
-              tableHeaders.appendChild(th);
-            });
-
-            snapshot.forEach(doc => {
-              const user = doc.data();
-              const row = document.createElement('tr');
-
-              // Create table cells dynamically based on user data
-              filteredHeaders.forEach(header => {
-                const td = document.createElement('td');
-                td.textContent = user[header] || '-'; // Use "-" if field is not available
-
-                // Handle the password field
-                if (header === "password") {
-                  td.classList.add('password-cell');
-                  td.setAttribute('data-password', user[header] || "N/A");
-                }
-
-                row.appendChild(td);
+              const firstDoc = snapshot.docs[0].data();
+              const headers = Object.keys(firstDoc).filter(h => h !== 'createdAt' && h !== 'uid');
+              tableHeaders.innerHTML = '';
+              headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                tableHeaders.appendChild(th);
               });
 
-              usersBody.appendChild(row);
+              snapshot.forEach(doc => {
+                const user = doc.data();
+                const row = document.createElement('tr');
+                headers.forEach(header => {
+                  const td = document.createElement('td');
+                  td.textContent = user[header] || '-';
+                  if (header === "password") {
+                    td.classList.add('password-cell');
+                    td.setAttribute('data-password', user[header] || "N/A");
+                  }
+                  row.appendChild(td);
+                });
+                usersBody.appendChild(row);
+              });
+            })
+            .catch(err => {
+              status.textContent = "Error fetching data: " + err.message;
+              console.error(err);
             });
-          })
-          .catch(err => {
-            status.textContent = "Error fetching data: " + err.message;
-            console.error(err);
+        } else {
+          status.textContent = "Access Denied: Only Admin can view this page.";
+        }
+
+        // Show logout button
+        if (authButton) {
+          authButton.textContent = "Logout";
+          authButton.href = "login.html";
+          authButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+              window.location.href = "login.html";
+            });
           });
+        }
+
       } else {
+        // Not logged in
+        if (authButton) {
+          authButton.textContent = "Login / Signup";
+          authButton.href = "login.html";
+        }
         status.textContent = "Access Denied: Only Admin can view this page.";
       }
     });
@@ -208,6 +202,7 @@
       document.body.classList.toggle('theme-dark');
     });
   </script>
-<script src="../assets/js/script.js"></script>
+
+  <script src="../assets/js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    .dashboard-container {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: var(--card-bg, #fff);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .logout-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+  <nav>
+    <div class="logo-container">
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="profile.html">Profile</a>
+     
+      <a href="login.html" class="btn" id="authButton">Login / Signup</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <h1>Welcome to Your Dashboard</h1>
+    <p id="user-info">Loading user info...</p>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+      storageBucket: "ic-project-6989d.appspot.com",
+      messagingSenderId: "90473196739",
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
+      measurementId: "G-WWH1GZZDKX"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('user-info').textContent =
+          `Name: ${user.displayName || 'No Name'}, Email: ${user.email}`;
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    function logout() {
+      auth.signOut().then(() => window.location.href = 'login.html');
+    }
+
+    // Theme Toggle
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('theme-dark');
+    });
+  </script>
+  <script src="assets/js/script.js"></script>
+</body>
+
+</html>

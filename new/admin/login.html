@@ -16,7 +16,7 @@
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
   <style>
    
   </style>
@@ -194,7 +194,7 @@
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
           alert("Login successful!");
-          window.location.href = 'dashboard.html';
+          window.location.href = 'profile.html';
         })
         .catch(err => {
           alert("Login failed: " + err.message);
@@ -221,7 +221,7 @@
               });
             }
           }).then(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = 'profile.html';
           });
         })
         .catch(err => {
