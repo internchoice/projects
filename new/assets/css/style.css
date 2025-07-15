@@ -153,6 +153,7 @@
   }
 
   .hero img {
+    margin-right: 110px;
     width: 480px;
     border-radius: 15px;
     box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1);
@@ -232,7 +233,7 @@
 
     .theme-toggle-btn {
       position: fixed;
-      bottom: 20px;
+      bottom: 90px;
       right: 20px;
       background-color: var(--primary);
       color: var(--white);
@@ -398,7 +399,7 @@
 
     .theme-toggle-btn {
       position: fixed;
-      bottom: 20px;
+      bottom: 90px;
       right: 20px;
       background-color: var(--primary);
       color: var(--white);
@@ -853,4 +854,27 @@ form.loading {
       to {
         transform: rotate(360deg);
       }
+    }
+     .whatsapp-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25D366; /* WhatsApp green */
+        color: white;
+        padding: 15px;
+        border-radius: 50px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .whatsapp-btn:hover {
+        background-color: #128C7E; /* Darker green on hover */
+    }
+
+    .whatsapp-btn i {
+        margin-right: 10px;
     }
