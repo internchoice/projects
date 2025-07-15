@@ -15,7 +15,6 @@
       margin: 0 auto 40px;
       text-align: center;
     }
-
     .search-container input {
       width: 100%;
       padding: 12px 20px;
@@ -79,7 +78,14 @@
     </div>
 
     <div class="cards-container" id="domain-cards">
-      <!-- Cards will be loaded from Firestore -->
+      <a href="sub.html#iot" class="card"><i class="bi bi-diagram-3"></i><p>IoT</p></a>
+      <a href="sub.html#machinelearning" class="card"><i class="bi bi-cpu"></i><p>Machine Learning</p></a>
+      <a href="sub.html#web" class="card"><i class="bi bi-window"></i><p>Web Development</p></a>
+      <a href="sub.html#app" class="card"><i class="bi bi-phone"></i><p>App Development</p></a>
+      <a href="sub.html#cybersecurity" class="card"><i class="bi bi-shield-lock"></i><p>Cybersecurity</p></a>
+      <a href="sub.html#blockchain" class="card"><i class="bi bi-boxes"></i><p>Blockchain</p></a>
+      <a href="sub.html#ai" class="card"><i class="bi bi-robot"></i><p>AI/ML</p></a>
+      <a href="sub.html#datascience" class="card"><i class="bi bi-bar-chart-line"></i><p>Data Science</p></a>
     </div>
   </section>
 
@@ -88,56 +94,15 @@
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
-      authDomain: "ic-project-6989d.firebaseapp.com",
-      projectId: "ic-project-6989d",
-      storageBucket: "ic-project-6989d.appspot.com",
-      messagingSenderId: "90473196739",
-      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
-      measurementId: "G-WWH1GZZDKX"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const container = document.getElementById('domain-cards');
-
-    db.collection("domains").orderBy("name").get()
-      .then(snapshot => {
-        if (snapshot.empty) {
-          container.innerHTML = "<p>No domains available.</p>";
-          return;
-        }
-
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const card = document.createElement('a');
-          card.href = `sub.html#${data.slug}`;
-          card.className = 'card';
-          card.innerHTML = `<i class="bi ${data.icon}"></i><p>${data.name}</p>`;
-          container.appendChild(card);
-        });
-      })
-      .catch(error => {
-        container.innerHTML = `<p style="color:red;">Error loading domains: ${error.message}</p>`;
-        console.error("Firestore fetch error:", error);
-      });
-  </script>
-
-  <!-- Theme toggle & search functionality -->
+  <!-- JavaScript -->
   <script src="assets/js/script.js"></script>
   <script>
+    // Theme toggle (already in script.js)
     const input = document.getElementById('search-input');
+    const cards = document.querySelectorAll('.cards-container .card');
 
     input.addEventListener('input', () => {
       const query = input.value.toLowerCase();
-      const cards = document.querySelectorAll('.cards-container .card');
       cards.forEach(card => {
         const text = card.textContent.toLowerCase();
         card.classList.toggle('hide', !text.includes(query));
