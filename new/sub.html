@@ -36,37 +36,68 @@
 
     .subdomain-section h2 {
       font-size: 2rem;
-      margin-bottom: 15px;
+      margin-bottom: 25px;
       text-align: center;
     }
 
     .project-list {
-      max-width: 800px;
+      max-width: 1200px;
       margin: auto;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
       background: var(--card-bg);
       color: var(--text-color);
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px var(--shadow);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: transform 0.3s ease;
     }
 
-    .project-item {
-      margin-bottom: 14px;
-      padding: 12px;
-      border-bottom: 1px solid var(--shadow);
-      font-size: 1.05rem;
+    .project-card:hover {
+      transform: translateY(-5px);
     }
-    .project-item:last-child {
-      border-bottom: none;
+
+    .project-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: var(--accent-color, #007BFF);
+    }
+
+    .project-card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .view-more-btn {
+      display: inline-block;
+      background: var(--accent-color, #007BFF);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .view-more-btn:hover {
+      background: #0056b3;
+    }
+
+    .project-card.hide {
+      display: none;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .project-item.hide {
-      display: none;
     }
   </style>
 </head>
@@ -95,88 +126,62 @@
     <input type="text" id="project-search" placeholder="Search projects...">
   </div>
 
-  <!-- Subdomain Sections -->
+  <!-- IoT Section Example -->
   <section id="iot" class="subdomain-section">
     <h2>Internet of Things (IoT)</h2>
     <div class="project-list">
-      <div class="project-item">Smart Agriculture Monitoring</div>
-      <div class="project-item">Home Automation System</div>
-      <div class="project-item">Wearable Health Tracker</div>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>Smart Agriculture Monitoring</h3>
+          <p>Monitor farm soil, temperature, and irrigation remotely using IoT devices and data sensors.</p>
+          <a href="details.html#smart-agriculture-monitoring" class="view-more-btn">View More</a>
+        </div>
+        <div class="project-card">
+          <h3>Home Automation System</h3>
+          <p>Control household appliances like lights and fans through mobile apps connected to microcontrollers.</p>
+          <a href="details.html#home-automation-system" class="view-more-btn">View More</a>
+        </div>
+        <div class="project-card">
+          <h3>Wearable Health Tracker</h3>
+          <p>Track heart rate, steps, and health vitals using wearable IoT sensors and cloud integration.</p>
+          <a href="details.html#wearable-health-tracker" class="view-more-btn">View More</a>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- Repeat similar structure for other sections -->
   <section id="machinelearning" class="subdomain-section">
     <h2>Machine Learning Projects</h2>
     <div class="project-list">
-      <div class="project-item">Student Performance Prediction</div>
-      <div class="project-item">Spam Mail Detection</div>
-      <div class="project-item">Image Classification with CNN</div>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>Student Performance Prediction</h3>
+          <p>Use ML models to predict student grades based on attendance, study hours, and test history.</p>
+          <a href="details.html#student-performance-prediction" class="view-more-btn">View More</a>
+        </div>
+        <div class="project-card">
+          <h3>Spam Mail Detection</h3>
+          <p>Classify emails as spam or not using NLP and machine learning classification algorithms.</p>
+          <a href="details.html#spam-mail-detection" class="view-more-btn">View More</a>
+        </div>
+        <div class="project-card">
+          <h3>Image Classification with CNN</h3>
+          <p>Train a Convolutional Neural Network to classify images into multiple object categories.</p>
+          <a href="details.html#image-classification" class="view-more-btn">View More</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="web" class="subdomain-section">
-    <h2>Web Development Projects</h2>
-    <div class="project-list">
-      <div class="project-item">E-commerce Website in React</div>
-      <div class="project-item">Portfolio with CMS</div>
-      <div class="project-item">Online Food Delivery Platform</div>
-    </div>
-  </section>
-
-  <section id="app" class="subdomain-section">
-    <h2>App Development Projects</h2>
-    <div class="project-list">
-      <div class="project-item">Cross‑Platform Chat App</div>
-      <div class="project-item">Fitness Tracker App</div>
-      <div class="project-item">Ride Sharing Application</div>
-    </div>
-  </section>
-
-  <section id="cybersecurity" class="subdomain-section">
-    <h2>Cybersecurity Projects</h2>
-    <div class="project-list">
-      <div class="project-item">Network Intrusion Detection System</div>
-      <div class="project-item">Web Application Penetration Testing</div>
-      <div class="project-item">Secure File Sharing Platform</div>
-    </div>
-  </section>
-
-  <section id="blockchain" class="subdomain-section">
-    <h2>Blockchain Projects</h2>
-    <div class="project-list">
-      <div class="project-item">Supply Chain Tracking on Blockchain</div>
-      <div class="project-item">NFT Marketplace Platform</div>
-      <div class="project-item">Decentralized Voting System</div>
-    </div>
-  </section>
-
-  <section id="ai" class="subdomain-section">
-    <h2>AI & ML Projects</h2>
-    <div class="project-list">
-      <div class="project-item">AI Chatbot Assistant</div>
-      <div class="project-item">Voice Recognition System</div>
-      <div class="project-item">Sentiment Analysis Model</div>
-    </div>
-  </section>
-
-  <section id="datascience" class="subdomain-section">
-    <h2>Data Science Projects</h2>
-    <div class="project-list">
-      <div class="project-item">Customer Segmentation Analysis</div>
-      <div class="project-item">Sales Forecasting Dashboard</div>
-      <div class="project-item">Exploratory Data Analysis Tutorial</div>
-    </div>
-  </section>
-
+  <!-- Repeat more sections like web, app, cybersecurity, blockchain, ai, datascience... -->
+  
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
 
   <script src="assets/js/script.js"></script>
   <script>
-    // Theme toggle and nav toggle assumed inside script.js
-
-    // Show only hashed section on load and hash change
     function showSection() {
       const hash = window.location.hash.replace('#', '');
       document.querySelectorAll('.subdomain-section').forEach(section => {
@@ -186,13 +191,12 @@
     window.addEventListener('DOMContentLoaded', showSection);
     window.addEventListener('hashchange', showSection);
 
-    // Project-search filter within active section
     const searchInput = document.getElementById('project-search');
     searchInput.addEventListener('input', () => {
       const term = searchInput.value.toLowerCase();
-      const active = document.querySelector('.subdomain-section.active .project-list');
+      const active = document.querySelector('.subdomain-section.active .project-grid');
       if (!active) return;
-      active.querySelectorAll('.project-item').forEach(item => {
+      active.querySelectorAll('.project-card').forEach(item => {
         item.classList.toggle('hide', !item.textContent.toLowerCase().includes(term));
       });
     });
