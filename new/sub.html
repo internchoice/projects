@@ -25,13 +25,9 @@
     }
 
     .subdomain-section {
-      display: none;
+      display: block;
       padding: 40px 20px;
       animation: fadeIn 0.6s ease-in-out;
-    }
-
-    .subdomain-section.active {
-      display: block;
     }
 
     .subdomain-section h2 {
@@ -126,80 +122,99 @@
     <input type="text" id="project-search" placeholder="Search projects...">
   </div>
 
-  <!-- IoT Section Example -->
-  <section id="iot" class="subdomain-section">
-    <h2>Internet of Things (IoT)</h2>
+  <!-- Section for Dynamic Content -->
+  <section class="subdomain-section">
+    <h2 id="domain-title">Projects</h2>
     <div class="project-list">
-      <div class="project-grid">
-        <div class="project-card">
-          <h3>Smart Agriculture Monitoring</h3>
-          <p>Monitor farm soil, temperature, and irrigation remotely using IoT devices and data sensors.</p>
-          <a href="details.html#smart-agriculture-monitoring" class="view-more-btn">View More</a>
-        </div>
-        <div class="project-card">
-          <h3>Home Automation System</h3>
-          <p>Control household appliances like lights and fans through mobile apps connected to microcontrollers.</p>
-          <a href="details.html#home-automation-system" class="view-more-btn">View More</a>
-        </div>
-        <div class="project-card">
-          <h3>Wearable Health Tracker</h3>
-          <p>Track heart rate, steps, and health vitals using wearable IoT sensors and cloud integration.</p>
-          <a href="details.html#wearable-health-tracker" class="view-more-btn">View More</a>
-        </div>
+      <div class="project-grid" id="project-grid">
+        <!-- Dynamic Cards Will Be Injected Here -->
       </div>
     </div>
   </section>
 
-  <!-- Repeat similar structure for other sections -->
-  <section id="machinelearning" class="subdomain-section">
-    <h2>Machine Learning Projects</h2>
-    <div class="project-list">
-      <div class="project-grid">
-        <div class="project-card">
-          <h3>Student Performance Prediction</h3>
-          <p>Use ML models to predict student grades based on attendance, study hours, and test history.</p>
-          <a href="details.html#student-performance-prediction" class="view-more-btn">View More</a>
-        </div>
-        <div class="project-card">
-          <h3>Spam Mail Detection</h3>
-          <p>Classify emails as spam or not using NLP and machine learning classification algorithms.</p>
-          <a href="details.html#spam-mail-detection" class="view-more-btn">View More</a>
-        </div>
-        <div class="project-card">
-          <h3>Image Classification with CNN</h3>
-          <p>Train a Convolutional Neural Network to classify images into multiple object categories.</p>
-          <a href="details.html#image-classification" class="view-more-btn">View More</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Repeat more sections like web, app, cybersecurity, blockchain, ai, datascience... -->
-  
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
 
-  <script src="assets/js/script.js"></script>
-  <script>
-    function showSection() {
-      const hash = window.location.hash.replace('#', '');
-      document.querySelectorAll('.subdomain-section').forEach(section => {
-        section.classList.toggle('active', section.id === hash);
-      });
-    }
-    window.addEventListener('DOMContentLoaded', showSection);
-    window.addEventListener('hashchange', showSection);
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+      storageBucket: "ic-project-6989d.appspot.com",
+      messagingSenderId: "90473196739",
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
+      measurementId: "G-WWH1GZZDKX"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <script>
+    const projectGrid = document.getElementById('project-grid');
+    const domainTitle = document.getElementById('domain-title');
     const searchInput = document.getElementById('project-search');
-    searchInput.addEventListener('input', () => {
+
+    function formatName(slug) {
+      return slug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    async function loadProjects(domain) {
+      domainTitle.innerText = formatName(domain) + " Projects";
+      projectGrid.innerHTML = "<p>Loading...</p>";
+
+      try {
+        const snapshot = await db.collection("projects").where("domain", "==", domain).get();
+
+        if (snapshot.empty) {
+          projectGrid.innerHTML = "<p>No projects available for this domain.</p>";
+          return;
+        }
+
+        projectGrid.innerHTML = "";
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const card = document.createElement("div");
+          card.className = "project-card";
+          card.innerHTML = `
+            <h3>${data.title}</h3>
+            <p>${data.description || 'No description available.'}</p>
+            <a href="details.html#${data.slug}" class="view-more-btn">View More</a>
+          `;
+          projectGrid.appendChild(card);
+        });
+      } catch (err) {
+        projectGrid.innerHTML = `<p style="color:red;">Error loading projects: ${err.message}</p>`;
+      }
+    }
+
+    function handleHashChange() {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        loadProjects(hash);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", handleHashChange);
+    window.addEventListener("hashchange", handleHashChange);
+
+    searchInput.addEventListener("input", () => {
       const term = searchInput.value.toLowerCase();
-      const active = document.querySelector('.subdomain-section.active .project-grid');
-      if (!active) return;
-      active.querySelectorAll('.project-card').forEach(item => {
-        item.classList.toggle('hide', !item.textContent.toLowerCase().includes(term));
+      document.querySelectorAll(".project-card").forEach(card => {
+        const match = card.textContent.toLowerCase().includes(term);
+        card.classList.toggle("hide", !match);
       });
     });
   </script>
+
+  <!-- Your theme toggle and nav toggle script -->
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

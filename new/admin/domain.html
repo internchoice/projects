@@ -9,9 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-    }
+
     .container {
       max-width: 900px;
       margin: 100px auto;
@@ -97,18 +95,21 @@
   </style>
 </head>
 <body>
-
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
   <!-- Navbar -->
   <nav>
     <div class="logo-container">
-      <img src="../assets/img/intern_logo_t.png" class="logo-light" />
-      <img src="../assets/img/logo_t.png" class="logo-dark" />
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
     </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="domain.html">Domains</a>
-      <a href="profile.html">profile</a>
-      <a href="contact.html">Contact</a>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a> 
+      <a href="sub.html">Sub Domains</a>
+      <a href="profile.html">Profile</a>
+      <a href="manage.html">Details</a>
+      <!-- <a href="login.html" class="btn" id="authButton">Login / Signup</a> -->
     </div>
   </nav>
 
@@ -228,5 +229,6 @@
     // Init
     loadDomains();
   </script>
+<script src="../assets/js/script.js"></script>
 </body>
 </html>

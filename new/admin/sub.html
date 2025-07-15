@@ -1,79 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Add Project | Intern Choice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add & Manage Projects | Intern Choice</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: #f9f9f9;
-      padding: 30px;
-    }
 
-    .form-container {
-      max-width: 600px;
+
+    .form-wrapper, .project-list {
+      max-width: 800px;
       margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      background: var(--card-bg);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px var(--shadow);
+      margin-bottom: 40px;
     }
 
     h2 {
       text-align: center;
       margin-bottom: 25px;
-      color: #007BFF;
+      font-size: 2rem;
+      color: var(--accent-color, #007BFF);
     }
 
     label {
       display: block;
-      margin: 12px 0 6px;
-      font-weight: 500;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
-    input, textarea, select, button {
+    input, textarea, select {
       width: 100%;
-      padding: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      background: var(--input-bg, #fff);
+      color: var(--text-color);
       font-size: 1rem;
-      margin-bottom: 15px;
     }
 
     button {
-      background: #007BFF;
-      color: white;
-      font-weight: bold;
+      padding: 10px 16px;
+      margin-top: 15px;
+      background: var(--accent-color, #007BFF);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
 
     button:hover {
       background: #0056b3;
     }
 
-    .success {
-      color: green;
-      margin-top: 10px;
+    .status {
+      text-align: center;
+      margin-top: 15px;
     }
 
-    .error {
-      color: red;
-      margin-top: 10px;
+    .status.success { color: green; }
+    .status.error { color: red; }
+
+    .project-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
+
+    .project-table th, .project-table td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    .project-table th {
+      background-color: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    .action-btn {
+      margin-right: 10px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-btn { background: orange; color: white; }
+    .delete-btn { background: crimson; color: white; }
   </style>
 </head>
+
 <body>
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a> 
+      <a href="sub.html">Sub Domains</a>
+      <a href="profile.html">Profile</a>
+      <a href="manage.html">Details</a>
+      <!-- <a href="login.html" class="btn" id="authButton">Login / Signup</a> -->
+    </div>
+  </nav>
 
-  <div class="form-container">
-    <h2>Add New Project</h2>
+  <!-- Add Project Form -->
+  <div class="form-wrapper">
+    <h2>Add / Edit Project</h2>
 
-    <label for="domain-select">Select Domain</label>
-    <select id="domain-select">
-      <option value="">-- Select Domain --</option>
-    </select>
+    <label for="domain-select">Domain</label>
+    <select id="domain-select"><option value="">-- Select Domain --</option></select>
 
     <label for="title">Project Title</label>
     <input type="text" id="title" placeholder="e.g., Smart Agriculture Monitoring">
@@ -81,22 +131,33 @@
     <label for="description">Description</label>
     <textarea id="description" rows="4" placeholder="Short project description..."></textarea>
 
-    <label for="slug">Slug / URL Identifier</label>
+    <label for="slug">Slug / URL</label>
     <input type="text" id="slug" placeholder="e.g., smart-agriculture-monitoring">
 
-    <label for="image">Project Image</label>
-    <input type="file" id="image" accept="image/*">
-
-    <button id="submitBtn">Add Project</button>
-
-    <div id="message"></div>
+    <button id="submitBtn">Save Project</button>
+    <div id="message" class="status"></div>
   </div>
 
-  <!-- Firebase SDKs -->
+  <!-- Project Listing -->
+  <div class="project-list">
+    <h2>All Projects</h2>
+    <table class="project-table" id="projectTable">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Domain</th>
+          <th>Slug</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
@@ -104,72 +165,116 @@
       projectId: "ic-project-6989d",
       storageBucket: "ic-project-6989d.appspot.com",
       messagingSenderId: "90473196739",
-      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
-      measurementId: "G-WWH1GZZDKX"
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
     const domainSelect = document.getElementById('domain-select');
     const titleInput = document.getElementById('title');
     const descInput = document.getElementById('description');
     const slugInput = document.getElementById('slug');
-    const imageInput = document.getElementById('image');
     const submitBtn = document.getElementById('submitBtn');
     const messageDiv = document.getElementById('message');
+    const projectTable = document.querySelector('#projectTable tbody');
 
-    // Fetch domains from 'domains' collection
+    let editId = null;
+
     async function fetchDomains() {
-      const querySnapshot = await getDocs(collection(db, "domains"));
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const option = document.createElement("option");
-        option.value = data.slug;
-        option.textContent = data.name;
-        domainSelect.appendChild(option);
+      const snapshot = await getDocs(collection(db, "domains"));
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const opt = document.createElement("option");
+        opt.value = d.slug;
+        opt.textContent = d.name;
+        domainSelect.appendChild(opt);
+      });
+    }
+
+    async function loadProjects() {
+      projectTable.innerHTML = "";
+      const snapshot = await getDocs(collection(db, "projects"));
+      snapshot.forEach(docSnap => {
+        const d = docSnap.data();
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${d.title}</td>
+          <td>${d.domain}</td>
+          <td>${d.slug}</td>
+          <td>
+            <button class="action-btn edit-btn" data-id="${docSnap.id}">Edit</button>
+            <button class="action-btn delete-btn" data-id="${docSnap.id}">Delete</button>
+          </td>`;
+        projectTable.appendChild(tr);
       });
     }
 
     fetchDomains();
+    loadProjects();
 
-    // Submit handler
-    submitBtn.addEventListener('click', async () => {
+    submitBtn.addEventListener("click", async () => {
+      const domain = domainSelect.value;
       const title = titleInput.value.trim();
       const description = descInput.value.trim();
       const slug = slugInput.value.trim();
-      const domain = domainSelect.value;
-      const file = imageInput.files[0];
 
-      if (!title || !description || !slug || !domain || !file) {
-        messageDiv.innerHTML = "<p class='error'>Please fill all fields and select a domain and image.</p>";
+      if (!domain || !title || !description || !slug) {
+        messageDiv.textContent = "Please fill all fields.";
+        messageDiv.className = "status error";
         return;
       }
 
       try {
-        const imagePath = `uploads/${file.name}`;
-        const storageRef = ref(storage, imagePath);
-        await uploadBytes(storageRef, file);
+        if (editId) {
+          const docRef = doc(db, "projects", editId);
+          await updateDoc(docRef, { domain, title, description, slug });
+          messageDiv.textContent = "✅ Project updated.";
+        } else {
+          await addDoc(collection(db, "projects"), { domain, title, description, slug });
+          messageDiv.textContent = "✅ Project added.";
+        }
 
-        await addDoc(collection(db, "projects"), {
-          title,
-          description,
-          slug,
-          domain,
-          imagePath // e.g., uploads/your-image.jpg
-        });
-
-        messageDiv.innerHTML = "<p class='success'>✅ Project added successfully with image!</p>";
+        messageDiv.className = "status success";
+        editId = null;
         titleInput.value = "";
         descInput.value = "";
         slugInput.value = "";
         domainSelect.value = "";
-        imageInput.value = "";
-      } catch (error) {
-        messageDiv.innerHTML = `<p class='error'>❌ Error: ${error.message}</p>`;
+        await loadProjects();
+      } catch (e) {
+        messageDiv.textContent = "Error: " + e.message;
+        messageDiv.className = "status error";
+      }
+    });
+
+    projectTable.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      if (e.target.classList.contains("edit-btn")) {
+        const docRef = doc(db, "projects", id);
+        const docSnap = await getDocs(collection(db, "projects"));
+        docSnap.forEach(d => {
+          if (d.id === id) {
+            const data = d.data();
+            domainSelect.value = data.domain;
+            titleInput.value = data.title;
+            descInput.value = data.description;
+            slugInput.value = data.slug;
+            editId = id;
+          }
+        });
+      }
+
+      if (e.target.classList.contains("delete-btn")) {
+        if (confirm("Are you sure you want to delete this project?")) {
+          await deleteDoc(doc(db, "projects", id));
+          await loadProjects();
+        }
       }
     });
   </script>
+
+  <!-- Theme toggle JS -->
+  <script src="../assets/js/script.js"></script>
 </body>
 </html>
