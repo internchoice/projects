@@ -2,85 +2,253 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project Details | Intern Choice Projects</title>
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* body { font-family: 'Montserrat', sans-serif; } */
-    .container { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+<style>
+  :root {
+    --card-bg: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --accent-color: #06B6D4;
+    --text-color: #333333;
+  }
 
-    .project-info {
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px var(--shadow);
+
+  .container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+
+  .project-info {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 40px;
+  }
+
+  .project-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+.project-image {
+  flex: 1;
+  min-width: 280px;
+  max-width: 100%;
+  width: 100%;
+  height: 250px; /* fixed height to maintain layout */
+  border-radius: 10px;
+  object-fit: contain; /* or 'cover' if you want to crop */
+  background-color: #f0f0f0; /* fallback in case image is transparent */
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+
+  .project-details {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .project-details h1 {
+    font-size: clamp(1.5rem, 2vw, 2.2rem);
+    color: var(--accent-color);
+    margin-bottom: 10px;
+  }
+
+  .project-details p {
+    margin: 8px 0;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  .add-to-cart {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .tabs {
+    margin-top: 40px;
+  }
+
+  .tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .tab-buttons button {
+    padding: 10px 18px;
+    border: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+    flex: 1;
+  }
+
+  .tab-buttons button.active {
+    background: var(--accent-color);
+    color: white;
+  }
+
+  .tab-content {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow);
+    overflow-x: auto;
+    word-wrap: break-word;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  .tab-pane p,
+  .tab-pane ul,
+  .tab-pane li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+
+  .tab-pane img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .tab-pane table {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    display: block;
+  }
+
+  .tab-pane table th,
+  .tab-pane table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .related-projects {
+    margin-top: 50px;
+  }
+
+  .related-projects h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .related-card {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+
+  .related-card h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .related-card a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+
+
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .project-row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
-
-    .project-info h1 { font-size: 2rem; margin-bottom: 10px; color: var(--accent-color, #007BFF); }
-    .price { font-size: 1.2rem; color: green; margin: 10px 0; }
-    .discount { color: red; font-weight: bold; }
-    .stock, .category { margin-top: 10px; font-weight: 500; color: var(--text-color); }
-
-    .add-to-cart {
-      margin-top: 20px;
-      padding: 10px 18px;
-      background: var(--accent-color, #007BFF);
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .tabs { margin-top: 40px; }
 
     .tab-buttons {
+      flex-direction: column;
+    }
+
+    .nav-toggle {
+      display: block;
+    }
+
+    .nav-links {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      background-color: var(--accent-color);
+      padding: 10px 0;
+    }
+
+    .nav-links.active {
       display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
     }
 
-    .tab-buttons button {
-      padding: 10px 18px;
-      border: none;
-      background: var(--card-bg);
-      color: var(--text-color);
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.3s;
+    .nav-links a {
+      padding: 10px 20px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 0 10px;
+      margin: 30px auto;
     }
 
-    .tab-buttons button.active {
-      background: var(--accent-color, #007BFF);
-      color: white;
+    .project-details p {
+      font-size: 0.95rem;
     }
 
-    .tab-content {
-      background: var(--card-bg);
-      color: var(--text-color);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px var(--shadow);
+    .related-card h4 {
+      font-size: 0.95rem;
     }
+  }
+</style>
 
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
-
-    @media (max-width: 768px) {
-      .tab-buttons { flex-direction: column; }
-    }
-  </style>
 </head>
 <body>
+  <!-- Theme toggle -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
   <!-- Navbar -->
   <nav>
     <div class="logo-container">
       <img src="assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
-      <img src="assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
     </div>
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
     <div class="nav-links" id="nav-links">
@@ -95,12 +263,18 @@
   <div class="container">
     <!-- Project Info -->
     <div class="project-info">
-      <h1 id="project-title">Loading...</h1>
-      <div class="price" id="project-price">₹--</div>
-      <div class="discount" id="project-discount">--</div>
-      <div class="stock" id="project-stock">--</div>
-      <div class="category" id="project-category">Category: --</div>
-      <button class="add-to-cart">Add to Cart</button>
+      <div class="project-row">
+        <img id="project-image" class="project-image" src="assets/img/project-placeholder.jpg" alt="Project Image">
+        <div class="project-details">
+          <h1 id="project-title">Loading...</h1>
+          <p><strong>Price:</strong> <span id="project-price">₹--</span></p>
+          <p><strong>Discount:</strong> <span id="project-discount">--</span></p>
+          <p><strong>Delivery:</strong> <span id="project-delivery">--</span></p>
+          <p><strong>Stock:</strong> <span id="project-stock">--</span></p>
+          <p><strong>Category:</strong> <span id="project-category">--</span></p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
     </div>
 
     <!-- Tabs -->
@@ -118,6 +292,12 @@
           <p>⭐️⭐️⭐️⭐️ Works perfectly with my Raspberry Pi setup.</p>
         </div>
       </div>
+    </div>
+
+    <!-- Related Projects -->
+    <div class="related-projects">
+      <h3>Related Topics</h3>
+      <div class="related-grid" id="relatedProjects"></div>
     </div>
   </div>
      <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
@@ -137,8 +317,7 @@
       projectId: "ic-project-6989d",
       storageBucket: "ic-project-6989d.appspot.com",
       messagingSenderId: "90473196739",
-      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
-      measurementId: "G-WWH1GZZDKX"
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
@@ -165,21 +344,52 @@
         document.getElementById("project-price").textContent = data.price ? `₹${data.price}` : "--";
         document.getElementById("project-discount").textContent = data.discount || "--";
         document.getElementById("project-stock").textContent = data.stock || "--";
-        document.getElementById("project-category").textContent = "Category: " + (data.domain || "General");
-
+        document.getElementById("project-category").textContent = data.domain || "--";
+        document.getElementById("project-delivery").textContent = data.delivery || "--";
         document.getElementById("desc").innerHTML = `<p>${data.description || "No description available."}</p>`;
-
         document.getElementById("info").innerHTML = `
           <ul>
             <li>Language: ${data.language || "N/A"}</li>
             <li>Hardware: ${data.hardware || "N/A"}</li>
             <li>Cloud: ${data.cloud || "N/A"}</li>
             <li>Delivery: ${data.delivery || "N/A"}</li>
-          </ul>
-        `;
+          </ul>`;
+
+        if (data.imageUrl) {
+  document.getElementById("project-image").src = data.imageUrl;
+}
+
+
+        loadRelatedProjects(data.domain, slug);
       } catch (err) {
         console.error("Error loading project:", err);
         document.getElementById("project-title").textContent = "Error loading project.";
+      }
+    }
+
+    async function loadRelatedProjects(domain, currentSlug) {
+      const container = document.getElementById("relatedProjects");
+      container.innerHTML = "";
+      const seen = new Set();
+
+      const snap = await db.collection("projectDetails")
+        .where("domain", "==", domain)
+        .limit(20).get();
+
+      snap.forEach(doc => {
+        const d = doc.data();
+        if (d.slug && d.slug !== currentSlug && !seen.has(d.slug)) {
+          seen.add(d.slug);
+          container.innerHTML += `
+            <div class="related-card">
+              <h4>${d.title}</h4>
+              <a href="details.html#${d.slug}">View More</a>
+            </div>`;
+        }
+      });
+
+      if (seen.size === 0) {
+        container.innerHTML = "<p>No related topics found.</p>";
       }
     }
 
@@ -194,6 +404,10 @@
         btn.classList.add("active");
         document.getElementById(btn.dataset.tab).classList.add("active");
       });
+    });
+
+    document.getElementById("nav-toggle").addEventListener("click", () => {
+      document.getElementById("nav-links").classList.toggle("active");
     });
   </script>
 

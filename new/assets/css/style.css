@@ -19,7 +19,7 @@
       --dark: #F0F0F0;
       --accent: #07A7C6;
       --white: #1c1c1c;
-      --card-bg: #222222;
+      --card-bg: #474747a9;
       --text-color: #ffffff;
       --shadow: rgba(255, 255, 255, 0.05);
       --card-shadow: rgba(255, 255, 255, 0.1);
@@ -86,7 +86,7 @@
 
     .nav-links a:hover {
       background-color: var(--primary);
-      color: var(--white);
+      color: #ffff;
       transform: translateY(-2px);
     }
 
@@ -372,7 +372,7 @@
 
     .contact-form button {
       background-color: var(--primary);
-      color: var(--white);
+      color: var(--text-color);
       padding: 12px 24px;
       border: none;
       border-radius: 30px;
@@ -597,10 +597,6 @@ body.dark-mode .mission-box {
       border-bottom: 3px solid var(--primary);
     }
 
-    form {
-      display: none;
-      flex-direction: column;
-    }
 
     form.active {
       display: flex;
@@ -710,7 +706,7 @@ form.loading {
     }
 
     form {
-      display: none;
+      /* display: none; */
       flex-direction: column;
     }
 
