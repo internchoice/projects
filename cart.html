@@ -1,46 +1,42 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Cart | Intern Choice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Cart | Intern Choice Projects</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
+  <nav>
+    <div class="logo-container">
+      <a href="index.html"><img src="assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light"></a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="orders.html">Orders</a>
+      <a href="wishlist.html">Wishlist</a>
+    </div>
+  </nav>
+
   <div class="container">
-    <h1>Your Cart</h1>
-    <div id="cart-items" class="item-list">Loading your cart...</div>
+    <h2>Your Cart</h2>
+    <div id="cart-items" class="cart-grid"></div>
+    <div id="cart-summary">
+      <p><strong>Total: ₹<span id="cart-total">0</span></strong></p>
+      <button id="place-order-btn">Place Order</button>
+    </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
 
-    const firebaseConfig = { /* your config */ };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth();
-
-    const cartList = document.getElementById('cart-items');
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const cartRef = collection(db, "users", user.uid, "cart");
-        const snapshot = await getDocs(cartRef);
-        if (snapshot.empty) {
-          cartList.textContent = "Your cart is empty.";
-        } else {
-          cartList.innerHTML = '';
-          snapshot.forEach(doc => {
-            const item = doc.data();
-            cartList.innerHTML += `<div class="card">${item.title} - ₹${item.price}</div>`;
-          });
-        }
-      } else {
-        cartList.textContent = "Please login to view your cart.";
-      }
-    });
-  </script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"></script>
+  <script type="module" src="assets/js/cart.js"></script>
 </body>
 </html>

@@ -1,46 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Wishlist | Intern Choice</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Wishlist | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Your Wishlist</h1>
-    <div id="wishlist-items" class="item-list">Loading your wishlist...</div>
+  <!-- Theme toggle -->
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+  <!-- Shopping quick links (hidden by default) -->
+  <div class="shopping-wrapper" hidden" id="shopping-section">
+    <div class="container">
+      <div class="shopping-links">
+        <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
+        <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+        <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+      </div>
+    </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="assets/img/intern_logo_t.png" class="logo-light" alt="Intern Choice Logo">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <!-- <a href="cart.html">Cart</a>
+      <a href="orders.html">Orders</a>
+      <a href="wishlist.html" class="active">Wishlist</a> -->
+      <a href="login.html" id="auth-link" class="btn">Login / Signup</a>
+    </div>
+  </nav>
 
-    const firebaseConfig = { /* your config */ };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth();
+  <!-- Content -->
+  <div class="container">
+    <h2>My Wishlist</h2>
+    <div id="wishlistContainer" class="card-container"></div>
+    <p id="emptyWishlist" style="display:none;">Your wishlist is empty.</p>
+  </div>
 
-    const wishlist = document.getElementById('wishlist-items');
+  <!-- WhatsApp Chat Button -->
+  <a href="https://wa.me/message/6SQ7PKNGRJM5P1" class="whatsapp-btn" target="_blank">
+    <i class="fab fa-whatsapp"></i> Chat with Us
+  </a>
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const wishRef = collection(db, "users", user.uid, "wishlist");
-        const snapshot = await getDocs(wishRef);
-        if (snapshot.empty) {
-          wishlist.textContent = "Your wishlist is empty.";
-        } else {
-          wishlist.innerHTML = '';
-          snapshot.forEach(doc => {
-            const item = doc.data();
-            wishlist.innerHTML += `<div class="card">${item.title} - ₹${item.price}</div>`;
-          });
-        }
-      } else {
-        wishlist.textContent = "Please login to view your wishlist.";
-      }
-    });
-  </script>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Firebase & JS -->
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"></script>
+  <script type="module" src="assets/js/wishlist.js"></script>
+  <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>

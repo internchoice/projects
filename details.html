@@ -9,6 +9,8 @@
    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <!-- <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script> -->
+
  </head>
 <body>
   <!-- Theme toggle -->
@@ -44,7 +46,7 @@
     <!-- Project Info -->
     <div class="project-info">
       <div class="project-row">
-        <img id="project-image" class="project-image" src="assets/img/project-placeholder.jpg" alt="Project Image">
+        <img id="project-image" class="project-image" src="assets/img/intern_logo_t.png" alt="Project Image">
         <div class="project-details">
           <h1 id="project-title">Loading...</h1>
           <p><strong>Price:</strong> <span id="project-price">₹--</span></p>
@@ -53,6 +55,8 @@
           <p><strong>Stock:</strong> <span id="project-stock">--</span></p>
           <p><strong>Category:</strong> <span id="project-category">--</span></p>
           <button class="add-to-cart">Add to Cart</button>
+          <button class="add-to-wishlist">Add to Wishlist</button>
+
         </div>
       </div>
     </div>
@@ -92,8 +96,12 @@
   </footer>
 
   <!-- Firebase -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script> -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script> -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
   <script type="module" src="assets/js/script.js"></script>
   <script type="module" src="assets/js/details.js"></script>
 </body>
