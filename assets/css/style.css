@@ -1200,3 +1200,7 @@ body.dark-mode .shopping-links a:hover {
   border-radius: 8px;
   margin-bottom: 10px;
 }
+
+footer a{
+  color: white;
+}
