@@ -1,34 +1,57 @@
-<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Cart | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <nav>
-    <div class="logo-container">
-      <a href="index.html"><img src="assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light"></a>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="domain.html">Domains</a>
-      <a href="orders.html">Orders</a>
-      <a href="wishlist.html">Wishlist</a>
-    </div>
-  </nav>
 
-  <div class="container">
-    <h2>Your Cart</h2>
-    <div id="cart-items" class="cart-grid"></div>
-    <div id="cart-summary">
-      <p><strong>Total: ₹<span id="cart-total">0</span></strong></p>
-      <button id="place-order-btn">Place Order</button>
+  <!-- Shopping quick links -->
+  <div class="shopping-wrapper" hidden" id="shopping-section">
+    <div class="container">
+      <div class="shopping-links">
+        <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
+        <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+        <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+      </div>
     </div>
   </div>
 
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="assets/img/intern_logo_t.png" class="logo-light" alt="Intern Choice Logo">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <!-- <a href="login.html" id="auth-link" class="btn">Login / Signup</a>
+      <a href="#" id="logout-link" class="btn" style="display: none;">Logout</a> -->
+    </div>
+  </nav>
+
+  <!-- Cart Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">🛒 Your Cart</h2>
+      <div id="cart-items" class="grid cart-grid"></div>
+
+      <div id="cart-summary" class="cart-summary">
+        <h3>Total: ₹<span id="cart-total">0</span></h3>
+        <button class="btn primary" id="place-order-btn">Place Order</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
     <a href="privacy.html">Privacy Policy</a> | 
@@ -36,10 +59,12 @@
     <a href="refund.html">Refund Policy</a>
   </footer>
 
-  <!-- Firebase -->
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"></script>
   <script type="module" src="assets/js/cart.js"></script>
+  <script type="module" src="assets/js/script.js"></script>
+ 
 </body>
 </html>
