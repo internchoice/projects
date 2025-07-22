@@ -8,7 +8,7 @@
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
   <style>
     .search-container {
       max-width: 500px;
@@ -49,18 +49,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Shopping Bar (visible after login) -->
-<div class="shopping-wrapper hidden" id="shopping-section">
-  <div class="container">
-    <div class="shopping-links">
-      <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
-      <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
-      <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
-    </div>
-  </div>
-</div>
-
   <!-- Theme Toggle Button -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
@@ -72,12 +60,13 @@
     </div>
 
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+
     <div class="nav-links" id="nav-links">
       <a href="index.html">Home</a>
       <a href="domain.html">Domains</a>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
-      <a href="login.html" class="btn" id="auth-link">Login / Signup</a>
+      <a href="login.html" class="btn">Login / Signup</a>
     </div>
   </nav>
 
@@ -95,9 +84,6 @@
   </section>
 
   <!-- Footer -->
-        <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
-    <i class="fab fa-whatsapp"></i> Chat with Us
-  </a>
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
@@ -145,7 +131,7 @@
   </script>
 
   <!-- Theme toggle & search functionality -->
-
+  <script src="../assets/js/script.js"></script>
   <script>
     const input = document.getElementById('search-input');
 
@@ -158,7 +144,5 @@
       });
     });
   </script>
-    <!-- <script src="assets/js/script.js"></script> -->
-     <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>

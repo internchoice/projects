@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Orders | Intern Choice</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Your Orders</h1>
+    <div id="order-items" class="item-list">Loading your orders...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = { /* your config */ };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    const orderList = document.getElementById('order-items');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const ordersRef = collection(db, "users", user.uid, "orders");
+        const snapshot = await getDocs(ordersRef);
+        if (snapshot.empty) {
+          orderList.textContent = "You have no orders yet.";
+        } else {
+          orderList.innerHTML = '';
+          snapshot.forEach(doc => {
+            const order = doc.data();
+            orderList.innerHTML += `<div class="card">${order.title} - ₹${order.total} <br><small>${new Date(order.date).toLocaleString()}</small></div>`;
+          });
+        }
+      } else {
+        orderList.textContent = "Please login to view your orders.";
+      }
+    });
+  </script>
+</body>
+</html>

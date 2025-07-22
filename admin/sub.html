@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add & Manage Projects | Intern Choice</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    /* body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-color, #f9f9f9);
+      color: var(--text-color, #333);
+      padding: 20px;
+    } */
+
+    h2, h3 {
+      color: var(--accent-color, #06B6D4);
+    }
+
+    .form-wrapper, .project-list {
+      max-width: 900px;
+      margin: auto;
+      background: var(--card-bg, #fff);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: var(--input-bg, #fff);
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      background: var(--accent-color, #06B6D4);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .status {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .status.success { color: green; }
+    .status.error { color: red; }
+
+    .project-list h3 {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .project-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .project-table th, .project-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .project-table th {
+      background-color: #f0f0f0;
+    }
+
+    .action-btn {
+      margin-right: 8px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-btn { background: orange; color: #fff; }
+    .delete-btn { background: crimson; color: #fff; }
+
+    .logo-container img {
+      height: 40px;
+    }
+
+
+
+    @media (max-width: 768px) {
+      .form-wrapper, .project-list {
+        padding: 20px;
+      }
+
+      .project-table th, .project-table td {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <div class="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="sub.html">Sub Domains</a>
+      <a href="profile.html">Profile</a>
+      <a href="manage.html">Details</a>
+    </div>
+  </nav>
+
+  <!-- Add Project Form -->
+  <div class="form-wrapper">
+    <h2>Add / Edit Project</h2>
+
+    <label for="domain-select">Domain</label>
+    <select id="domain-select"><option value="">-- Select Domain --</option></select>
+
+    <label for="title">Project Title</label>
+    <input type="text" id="title" placeholder="e.g., Smart Agriculture Monitoring">
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="4" placeholder="Short project description..."></textarea>
+
+    <label for="slug">Slug</label>
+    <input type="text" id="slug" placeholder="e.g., smart-agriculture-monitoring">
+
+    <button id="submitBtn">Save Project</button>
+    <div id="message" class="status"></div>
+  </div>
+
+  <!-- Grouped Project Sections -->
+  <div class="project-list" id="projectSections">
+    <h2>Projects by Domain</h2>
+  </div>
+
+  <!-- Firebase Firestore -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+      storageBucket: "ic-project-6989d.appspot.com",
+      messagingSenderId: "90473196739",
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const domainSelect = document.getElementById('domain-select');
+    const titleInput = document.getElementById('title');
+    const descInput = document.getElementById('description');
+    const slugInput = document.getElementById('slug');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('message');
+    const sectionContainer = document.getElementById('projectSections');
+
+    let editId = null;
+
+    async function fetchDomains() {
+      const snapshot = await getDocs(collection(db, "domains"));
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const opt = document.createElement("option");
+        opt.value = d.slug;
+        opt.textContent = d.name;
+        domainSelect.appendChild(opt);
+      });
+    }
+
+    async function loadProjects() {
+      const snapshot = await getDocs(collection(db, "projects"));
+      const grouped = {};
+
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const domain = data.domain;
+        if (!grouped[domain]) grouped[domain] = [];
+        grouped[domain].push({ id: docSnap.id, ...data });
+      });
+
+      sectionContainer.innerHTML = "<h2>Projects by Domain</h2>";
+
+      for (const [domain, projects] of Object.entries(grouped)) {
+        const section = document.createElement("div");
+        const heading = document.createElement("h3");
+        heading.textContent = domain;
+        section.appendChild(heading);
+
+        const table = document.createElement("table");
+        table.className = "project-table";
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Slug</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${projects.map(p => `
+              <tr>
+                <td>${p.title}</td>
+                <td>${p.slug}</td>
+                <td>
+                  <button class="action-btn edit-btn" data-id="${p.id}">Edit</button>
+                  <button class="action-btn delete-btn" data-id="${p.id}">Delete</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        `;
+        section.appendChild(table);
+        sectionContainer.appendChild(section);
+      }
+    }
+
+    submitBtn.addEventListener("click", async () => {
+      const domain = domainSelect.value;
+      const title = titleInput.value.trim();
+      const description = descInput.value.trim();
+      const slug = slugInput.value.trim();
+
+      if (!domain || !title || !description || !slug) {
+        messageDiv.textContent = "Please fill all fields.";
+        messageDiv.className = "status error";
+        return;
+      }
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "projects", editId), { domain, title, description, slug });
+          messageDiv.textContent = "✅ Project updated.";
+        } else {
+          await addDoc(collection(db, "projects"), { domain, title, description, slug });
+          messageDiv.textContent = "✅ Project added.";
+        }
+
+        messageDiv.className = "status success";
+        editId = null;
+        titleInput.value = "";
+        descInput.value = "";
+        slugInput.value = "";
+        domainSelect.value = "";
+        await loadProjects();
+      } catch (e) {
+        messageDiv.textContent = "Error: " + e.message;
+        messageDiv.className = "status error";
+      }
+    });
+
+    sectionContainer.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      if (!id) return;
+
+      if (e.target.classList.contains("edit-btn")) {
+        const snapshot = await getDocs(collection(db, "projects"));
+        snapshot.forEach(d => {
+          if (d.id === id) {
+            const data = d.data();
+            domainSelect.value = data.domain;
+            titleInput.value = data.title;
+            descInput.value = data.description;
+            slugInput.value = data.slug;
+            editId = id;
+          }
+        });
+      }
+
+      if (e.target.classList.contains("delete-btn")) {
+        if (confirm("Are you sure you want to delete this project?")) {
+          await deleteDoc(doc(db, "projects", id));
+          await loadProjects();
+        }
+      }
+    });
+
+    fetchDomains();
+    loadProjects();
+  </script>
+
+  <!-- Optional Theme JS -->
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

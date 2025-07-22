@@ -5,245 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project Details | Intern Choice Projects</title>
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --card-bg: #ffffff;
-    --shadow: rgba(0, 0, 0, 0.1);
-    --accent-color: #06B6D4;
-    --text-color: #333333;
-  }
 
-
-  .container {
-    max-width: 1100px;
-    margin: 60px auto;
-    padding: 0 20px;
-  }
-
-  .project-info {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow);
-    margin-bottom: 40px;
-  }
-
-  .project-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-.project-image {
-  flex: 1;
-  min-width: 280px;
-  max-width: 100%;
-  width: 100%;
-  height: 250px; /* fixed height to maintain layout */
-  border-radius: 10px;
-  object-fit: contain; /* or 'cover' if you want to crop */
-  background-color: #f0f0f0; /* fallback in case image is transparent */
-  box-shadow: 0 4px 12px var(--shadow);
-}
-
-
-  .project-details {
-    flex: 1;
-    min-width: 280px;
-  }
-
-  .project-details h1 {
-    font-size: clamp(1.5rem, 2vw, 2.2rem);
-    color: var(--accent-color);
-    margin-bottom: 10px;
-  }
-
-  .project-details p {
-    margin: 8px 0;
-    font-weight: 500;
-    color: var(--text-color);
-  }
-
-  .add-to-cart {
-    margin-top: 20px;
-    padding: 10px 18px;
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .tabs {
-    margin-top: 40px;
-  }
-
-  .tab-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-
-  .tab-buttons button {
-    padding: 10px 18px;
-    border: none;
-    background: var(--card-bg);
-    color: var(--text-color);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.3s;
-    flex: 1;
-  }
-
-  .tab-buttons button.active {
-    background: var(--accent-color);
-    color: white;
-  }
-
-  .tab-content {
-    background: var(--card-bg);
-    color: var(--text-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px var(--shadow);
-    overflow-x: auto;
-    word-wrap: break-word;
-  }
-
-  .tab-pane {
-    display: none;
-  }
-
-  .tab-pane.active {
-    display: block;
-  }
-
-  .tab-pane p,
-  .tab-pane ul,
-  .tab-pane li {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 10px 0;
-  }
-
-  .tab-pane img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  .tab-pane table {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    border-collapse: collapse;
-    display: block;
-  }
-
-  .tab-pane table th,
-  .tab-pane table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    font-size: 0.95rem;
-    text-align: left;
-  }
-
-  .related-projects {
-    margin-top: 50px;
-  }
-
-  .related-projects h3 {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-  }
-
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
-
-  .related-card {
-    background: var(--card-bg);
-    padding: 16px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px var(--shadow);
-  }
-
-  .related-card h4 {
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-
-  .related-card a {
-    color: var(--accent-color);
-    text-decoration: underline;
-    font-size: 0.9rem;
-  }
-
-
-
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .project-row {
-      flex-direction: column;
-      align-items: center;
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- <style>
+    .shopping {
+      background: var(--primary-bg, #f4f4f4);
+      padding: 0.8rem 1.5rem;
       text-align: center;
     }
-
-    .tab-buttons {
-      flex-direction: column;
+    .shopping a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: var(--primary-text, #333);
+      font-weight: 500;
     }
-
-    .nav-toggle {
-      display: block;
+    .shopping a:hover {
+      text-decoration: underline;
     }
-
-    .nav-links {
+    body.dark-mode .shopping {
+      background: #1e1e1e;
+    }
+    body.dark-mode .shopping a {
+      color: #fff;
+    }
+    .hidden {
       display: none;
-      width: 100%;
-      flex-direction: column;
-      background-color: var(--accent-color);
-      padding: 10px 0;
     }
-
-    .nav-links.active {
-      display: flex;
-    }
-
-    .nav-links a {
-      padding: 10px 20px;
-      text-align: center;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .container {
-      padding: 0 10px;
-      margin: 30px auto;
-    }
-
-    .project-details p {
-      font-size: 0.95rem;
-    }
-
-    .related-card h4 {
-      font-size: 0.95rem;
-    }
-  }
-</style>
-
+  </style> -->
 </head>
 <body>
   <!-- Theme toggle -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+<!-- Shopping Section -->
+<div class="shopping-wrapper hidden" id="shopping-section">
+  <div class="container">
+    <div class="shopping-links">
+      <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
+      <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+    </div>
+  </div>
+</div>
 
   <!-- Navbar -->
   <nav>
@@ -256,7 +61,7 @@
       <a href="domain.html">Domains</a>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
-      <a href="login.html" class="btn">Login / Signup</a>
+      <a href="login.html" id="auth-link" class="btn">Login / Signup</a>
     </div>
   </nav>
 
@@ -300,9 +105,13 @@
       <div class="related-grid" id="relatedProjects"></div>
     </div>
   </div>
-     <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
     <i class="fab fa-whatsapp"></i> Chat with Us
   </a>
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
   </footer>
@@ -321,9 +130,7 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-  </script>
 
-  <script>
     const slug = location.hash.replace("#", "");
 
     async function loadProjectDetails(slug) {
@@ -356,9 +163,8 @@
           </ul>`;
 
         if (data.imageUrl) {
-  document.getElementById("project-image").src = data.imageUrl;
-}
-
+          document.getElementById("project-image").src = data.imageUrl;
+        }
 
         loadRelatedProjects(data.domain, slug);
       } catch (err) {
@@ -410,7 +216,6 @@
       document.getElementById("nav-links").classList.toggle("active");
     });
   </script>
-
-  <script src="assets/js/script.js"></script>
+  <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>

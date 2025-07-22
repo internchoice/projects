@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart | Intern Choice</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Your Cart</h1>
+    <div id="cart-items" class="item-list">Loading your cart...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = { /* your config */ };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    const cartList = document.getElementById('cart-items');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const cartRef = collection(db, "users", user.uid, "cart");
+        const snapshot = await getDocs(cartRef);
+        if (snapshot.empty) {
+          cartList.textContent = "Your cart is empty.";
+        } else {
+          cartList.innerHTML = '';
+          snapshot.forEach(doc => {
+            const item = doc.data();
+            cartList.innerHTML += `<div class="card">${item.title} - ₹${item.price}</div>`;
+          });
+        }
+      } else {
+        cartList.textContent = "Please login to view your cart.";
+      }
+    });
+  </script>
+</body>
+</html>

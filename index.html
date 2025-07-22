@@ -1,264 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InternChoice Projects – Coming Soon</title>
-  <link rel="shortcut icon" href="https://internchoice.com/assets/img/intern_logo_t.png" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
-    :root {
-      --primary: #401966;
-      --accent: #8CB29F;
-      --light-bg: #f7f8fc;
-      --dark-bg: #000000;
-      --light-card: rgba(255, 255, 255, 0.95);
-      --dark-card: rgba(20, 20, 20, 0.9);
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--light-bg);
-      color: #333;
-      min-height: 100vh;
-      overflow: hidden;
-      transition: background 0.5s, color 0.5s;
-    }
-
-    [data-theme="dark"] body {
-      background: var(--dark-bg) !important;
-      color: #f0f0f0;
-    }
-
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: 0.15;
-      animation: blob 15s infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes blob {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(20vw, -10vh) scale(1.2); }
-      50% { transform: translate(-10vw, 10vh) scale(0.8); }
-      75% { transform: translate(5vw, -20vh) scale(1.1); }
-    }
-
-    .blob:nth-child(1) {
-      width: 30vw; height: 30vw;
-      top: 10%; left: 5%;
-    }
-
-    .blob:nth-child(2) {
-      width: 20vw; height: 20vw;
-      bottom: 5%; right: 5%;
-    }
-
-    .blob:nth-child(3) {
-      width: 25vw; height: 25vw;
-      top: 50%; right: 10%;
-    }
-
-    .card {
-      position: relative;
-      z-index: 10;
-      max-width: 600px;
-      width: 90%;
-      margin: 5vh auto;
-      padding: 3rem 2rem;
-      background: var(--light-card);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      animation: fadeInUp 1.5s ease forwards;
-      opacity: 0;
-      transition: background 0.5s, color 0.5s;
-    }
-
-    [data-theme="dark"] .card {
-      background: var(--dark-card);
-    }
-
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(40px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo {
-      max-width: 120px;
-      margin: 0 auto;
-      display: block;
-      vertical-align: middle;
-    }
-
-    .logo-dark {
-      max-width: 120px;
-      margin: 0 auto;
-      display: block;
-      vertical-align: middle;
-      width: 100px;
-      display: none;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--accent);
-      margin-bottom: 2rem;
-    }
-
-    .countdown {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 2rem;
-      color: inherit;
-    }
-
-    .social-icons {
-      margin-top: 1.5rem;
-    }
-
-    .social-icons a {
-      margin: 0 0.6rem;
-      font-size: 1.4rem;
-      color: inherit;
-      transition: color 0.3s, transform 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: var(--accent);
-      transform: scale(1.2);
-    }
-
-    .toggle-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      color: inherit;
-      cursor: pointer;
-      z-index: 99;
-      transition: transform 0.3s;
-    }
-
-    .toggle-btn:hover {
-      transform: rotate(20deg);
-    }
-
-    footer {
-      font-size: 0.8rem;
-      opacity: 0.6;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      .subtitle { font-size: 1rem; }
-      .logo { max-width: 100px; }
-    }
-
-    [data-theme="dark"] h1,
-    [data-theme="dark"] .subtitle,
-    [data-theme="dark"] .countdown,
-    [data-theme="dark"] footer {
-      color: #fff;
-    }
-  </style>
+  <title>Intern Choice Projects</title>
+  <meta name="description" content="Build your digital project with Intern Choice. Explore domains like Web Development, ML, IoT, Cybersecurity and more with expert consultation.">
+  <meta name="keywords" content="Intern Choice, digital projects, web development, machine learning, IoT, cybersecurity, app development, blockchain, tech internships, student projects">
+  <meta name="author" content="Intern Choice">
+  <link rel="canonical" href="https://projects.internchoice.com/" />
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<!-- Shopping Section -->
+<div class="shopping-wrapper hidden" id="shopping-section">
+  <div class="container">
+    <div class="shopping-links">
+      <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
+      <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+    </div>
+  </div>
+</div>
 
-  <!-- Blobs -->
-  <div class="blob"></div>
-  <div class="blob"></div>
-  <div class="blob"></div>
 
-  <!-- Theme Toggle -->
-  <button class="toggle-btn" onclick="toggleTheme()"><span id="theme-icon">🌙</span></button>
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
-  <!-- Main Content -->
-  <div class="card">
-    <!-- Light Logo -->
-    <img src="https://internchoice.com/assets/img/intern_logo_t.png" alt="InternChoice Logo" class="logo" onerror="this.style.display='none'" id="light-logo" />
-    
-    <!-- Dark Logo -->
-    <img src="https://internchoice.com/assets/img/logo_t.png" alt="InternChoice Logo Dark" class="logo-dark" onerror="this.style.display='none'" id="dark-logo" />
-    
-    <h1>Coming Soon</h1>
-    <p class="subtitle">A new portal for engineering student projects launches at <strong>projects.internchoice.com</strong></p>
-    <div class="countdown" id="countdown">Loading...</div>
-
-    <!-- Social Links -->
-    <div class="social-icons">
-      <a href="https://in.linkedin.com/company/internchoice" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/intern_choice/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.facebook.com/people/Intern-Choice/100090795922072/" target="_blank"><i class="fab fa-facebook"></i></a>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="assets/img/intern_logo_t.png" alt="Logo Light" class="logo-light" />
+      <img src="assets/img/logo_t.png" alt="Logo Dark" class="logo-dark" />
     </div>
 
-   <footer>
-  © 2025 InternChoice. All rights reserved. | 
-  <a href="privacy.html">Privacy Policy</a> | 
-  <a href="term.html">Terms and Conditions</a> | 
-  <a href="refund.html">Refund Policy</a>
-</footer>
+    <!-- Toggle Button for Mobile -->
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
 
-  </div>
+    <!-- Links -->
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="btn" id="auth-link">Login / Signup</a>
+    </div>
+  </nav>
 
-  <!-- JavaScript -->
-  <script>
-    function toggleTheme() {
-      const html = document.documentElement;
-      const icon = document.getElementById('theme-icon');
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      const lightLogo = document.getElementById('light-logo');
-      const darkLogo = document.getElementById('dark-logo');
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Build Your Digital Project Today</h1>
+      <p>Explore a wide range of domains and get expert consultation for free. Let's make your digital project a reality.</p>
+      <div class="hero-buttons">
+        <a href="domain.html" class="btn explore-btn">Explore Domains</a>
+        <a href="contact.html" class="btn consult-btn">Free Consultation</a>
+      </div>
+    </div>
+    <img src="assets/img/hero.jpeg" alt="Hero Illustration" />
+  </section>
 
-      if (!isDark) {
-        html.setAttribute('data-theme', 'dark');
-        document.body.style.backgroundColor = "#000";
-        icon.textContent = '☀️';
-        lightLogo.style.display = 'none';  // Hide light logo
-        darkLogo.style.display = 'block';  // Show dark logo
-      } else {
-        html.setAttribute('data-theme', 'light');
-        document.body.style.backgroundColor = "var(--light-bg)";
-        icon.textContent = '🌙';
-        lightLogo.style.display = 'block'; // Show light logo
-        darkLogo.style.display = 'none';   // Hide dark logo
-      }
-    }
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Featured Domains</h2>
+    <div class="cards-container">
+      <a href="sub.html#iot" class="card"><i class="bi bi-diagram-3"></i><p>IoT</p></a>
+      <a href="sub.html#machinelearning" class="card"><i class="bi bi-cpu"></i><p>Machine Learning</p></a>
+      <!-- <a href="sub.html#web" class="card"><i class="bi bi-window"></i><p>Web Development</p></a>
+      <a href="sub.html#app" class="card"><i class="bi bi-phone"></i><p>App Development</p></a>
+      <a href="sub.html#cybersecurity" class="card"><i class="bi bi-shield-lock"></i><p>Cybersecurity</p></a>
+      <a href="sub.html#blockchain" class="card"><i class="bi bi-boxes"></i><p>Blockchain</p></a>
+      <a href="sub.html#ai" class="card"><i class="bi bi-robot"></i><p>AI/ML</p></a>
+      <a href="sub.html#datascience" class="card"><i class="bi bi-bar-chart-line"></i><p>Data Science</p></a> -->
+    </div>
+  </section>
 
-    const cd = document.getElementById('countdown');
-    const target = new Date("2025-08-10T00:00:00").getTime();
-    setInterval(() => {
-      const now = Date.now();
-      const diff = target - now;
-      if (diff <= 0) {
-        cd.textContent = "We're Live!";
-        return;
-      }
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      cd.textContent = `${d}d ${h}h ${m}m ${s}s`;
-    }, 1000);
-  </script>
+  <!-- WhatsApp & Footer -->
+  <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i> Chat with Us
+  </a>
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>

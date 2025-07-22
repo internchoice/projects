@@ -1,0 +1,10 @@
+<!-- index.html -->
+<div id="header"></div>
+
+<script>
+  fetch('comman/head.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header').innerHTML = data;
+    });
+</script>

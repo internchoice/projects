@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profiles | Intern Choice Admin</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dashboard-container {
+      max-width: 1000px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: var(--card-bg, #fff);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .status {
+      text-align: center;
+      font-weight: 500;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .password-cell {
+      position: relative;
+    }
+
+    .password-cell::before {
+      content: "********";
+      display: block;
+    }
+
+    .password-cell:hover::before {
+      content: attr(data-password);
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a> 
+      <a href="sub.html">Sub Domains</a>
+      <a href="profile.html">Profile</a>
+      <a href="manage.html">Details</a>
+      <a href="login.html" class="btn" id="authButton">Login / Signup</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <h1>All Registered Users</h1>
+    <div class="status" id="status">Loading users...</div>
+
+    <table id="usersTable" style="display: none;">
+      <thead>
+        <tr id="tableHeaders"></tr>
+      </thead>
+      <tbody id="usersBody"></tbody>
+    </table>
+  </div>
+
+  <footer style="text-align:center; margin-top:40px;">&copy; 2025 Intern Choice Projects. All Rights Reserved.</footer>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+      storageBucket: "ic-project-6989d.appspot.com",
+      messagingSenderId: "90473196739",
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
+      measurementId: "G-WWH1GZZDKX"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const usersBody = document.getElementById('usersBody');
+    const usersTable = document.getElementById('usersTable');
+    const tableHeaders = document.getElementById('tableHeaders');
+    const status = document.getElementById('status');
+    const authButton = document.getElementById('authButton');
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // Admin data display
+        if (user.email === "service.internchoice@gmail.com") {
+          db.collection("users").orderBy("createdAt", "desc").get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                status.textContent = "No users found.";
+                return;
+              }
+
+              usersTable.style.display = 'table';
+              status.style.display = 'none';
+
+              const firstDoc = snapshot.docs[0].data();
+              const headers = Object.keys(firstDoc).filter(h => h !== 'createdAt' && h !== 'uid');
+              tableHeaders.innerHTML = '';
+              headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                tableHeaders.appendChild(th);
+              });
+
+              snapshot.forEach(doc => {
+                const user = doc.data();
+                const row = document.createElement('tr');
+                headers.forEach(header => {
+                  const td = document.createElement('td');
+                  td.textContent = user[header] || '-';
+                  if (header === "password") {
+                    td.classList.add('password-cell');
+                    td.setAttribute('data-password', user[header] || "N/A");
+                  }
+                  row.appendChild(td);
+                });
+                usersBody.appendChild(row);
+              });
+            })
+            .catch(err => {
+              status.textContent = "Error fetching data: " + err.message;
+              console.error(err);
+            });
+        } else {
+          status.textContent = "Access Denied: Only Admin can view this page.";
+        }
+
+        // Show logout button
+        if (authButton) {
+          authButton.textContent = "Logout";
+          authButton.href = "login.html";
+          authButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+              window.location.href = "login.html";
+            });
+          });
+        }
+
+      } else {
+        // Not logged in
+        if (authButton) {
+          authButton.textContent = "Login / Signup";
+          authButton.href = "login.html";
+        }
+        status.textContent = "Access Denied: Only Admin can view this page.";
+      }
+    });
+
+    // Dark Theme Toggle
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('theme-dark');
+    });
+  </script>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

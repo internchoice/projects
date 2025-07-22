@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Details | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+ </head>
+<body>
+  <!-- Theme toggle -->
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+
+<!-- Shopping Section -->
+<div class="shopping-wrapper hidden" id="shopping-section">
+  <div class="container">
+    <div class="shopping-links">
+      <a href="cart.html"><i class="bi bi-cart4"></i> Cart</a>
+      <a href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+    </div>
+  </div>
+</div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="domain.html">Domains</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" id="auth-link" class="btn">Login / Signup</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Project Info -->
+    <div class="project-info">
+      <div class="project-row">
+        <img id="project-image" class="project-image" src="assets/img/project-placeholder.jpg" alt="Project Image">
+        <div class="project-details">
+          <h1 id="project-title">Loading...</h1>
+          <p><strong>Price:</strong> <span id="project-price">₹--</span></p>
+          <p><strong>Discount:</strong> <span id="project-discount">--</span></p>
+          <p><strong>Delivery:</strong> <span id="project-delivery">--</span></p>
+          <p><strong>Stock:</strong> <span id="project-stock">--</span></p>
+          <p><strong>Category:</strong> <span id="project-category">--</span></p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="desc">Description</button>
+        <button class="tab-btn" data-tab="info">Additional Info</button>
+        <button class="tab-btn" data-tab="reviews">Reviews</button>
+      </div>
+      <div class="tab-content">
+        <div id="desc" class="tab-pane active"></div>
+        <div id="info" class="tab-pane"></div>
+        <div id="reviews" class="tab-pane">
+          <p>⭐️⭐️⭐️⭐️⭐️ Great project! Very useful and easy to implement.</p>
+          <p>⭐️⭐️⭐️⭐️ Works perfectly with my Raspberry Pi setup.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Projects -->
+    <div class="related-projects">
+      <h3>Related Topics</h3>
+      <div class="related-grid" id="relatedProjects"></div>
+    </div>
+  </div>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i> Chat with Us
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+  <script type="module" src="assets/js/script.js"></script>
+  <script type="module" src="assets/js/details.js"></script>
+</body>
+</html>

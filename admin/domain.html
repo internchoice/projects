@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Domains | Intern Choice Projects</title>
+  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+
+    .container {
+      max-width: 900px;
+      margin: 100px auto;
+      background: var(--card-bg, #fff);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    input {
+      padding: 12px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 16px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    td i {
+      font-size: 1.2rem;
+    }
+
+    .actions button {
+      padding: 6px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .btn-edit {
+      background: #ffc107;
+      color: #000;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        margin: 30px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo-container">
+      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
+      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+    </div>
+    <button class="nav-toggle" id="nav-toggle">&#9776;</button>
+    <div class="nav-links" id="nav-links">
+      <a href="dashboard.html">Home</a>
+      <a href="domain.html">Domains</a> 
+      <a href="sub.html">Sub Domains</a>
+      <a href="profile.html">Profile</a>
+      <a href="manage.html">Details</a>
+      <!-- <a href="login.html" class="btn" id="authButton">Login / Signup</a> -->
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Manage Project Domains</h2>
+
+    <form id="domainForm">
+      <input type="hidden" id="docId" />
+      <input type="text" id="domainName" placeholder="Domain Name (e.g., Web Development)" required />
+      <input type="text" id="domainSlug" placeholder="Slug (e.g., web)" required />
+      <input type="text" id="domainIcon" placeholder="Icon Class (e.g., bi-window)" required />
+      <button type="submit" id="submitBtn">Add Domain</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Icon</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="domainTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+      authDomain: "ic-project-6989d.firebaseapp.com",
+      projectId: "ic-project-6989d",
+      storageBucket: "ic-project-6989d.appspot.com",
+      messagingSenderId: "90473196739",
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
+      measurementId: "G-WWH1GZZDKX"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const form = document.getElementById("domainForm");
+    const domainTable = document.getElementById("domainTableBody");
+
+    // Load domains
+    function loadDomains() {
+      domainTable.innerHTML = "";
+      db.collection("domains").orderBy("name").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${data.name}</td>
+            <td>${data.slug}</td>
+            <td><i class="bi ${data.icon}"></i> ${data.icon}</td>
+            <td class="actions">
+              <button class="btn-edit" onclick="editDomain('${doc.id}', '${data.name}', '${data.slug}', '${data.icon}')">Edit</button>
+              <button class="btn-delete" onclick="deleteDomain('${doc.id}')">Delete</button>
+            </td>
+          `;
+          domainTable.appendChild(row);
+        });
+      }).catch(error => {
+        console.error("Error loading domains:", error);
+      });
+    }
+
+    // Form submit
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const docId = document.getElementById("docId").value;
+      const name = document.getElementById("domainName").value.trim();
+      const slug = document.getElementById("domainSlug").value.trim().toLowerCase();
+      const icon = document.getElementById("domainIcon").value.trim();
+
+      if (!name || !slug || !icon) return alert("All fields are required!");
+
+      const domainData = { name, slug, icon };
+
+      if (docId) {
+        // Update
+        db.collection("domains").doc(docId).update(domainData).then(() => {
+          form.reset();
+          document.getElementById("submitBtn").textContent = "Add Domain";
+          loadDomains();
+        });
+      } else {
+        // Insert
+        db.collection("domains").add(domainData).then(() => {
+          form.reset();
+          loadDomains();
+        });
+      }
+    });
+
+    // Edit
+    function editDomain(id, name, slug, icon) {
+      document.getElementById("docId").value = id;
+      document.getElementById("domainName").value = name;
+      document.getElementById("domainSlug").value = slug;
+      document.getElementById("domainIcon").value = icon;
+      document.getElementById("submitBtn").textContent = "Update Domain";
+    }
+
+    // Delete
+    function deleteDomain(id) {
+      if (confirm("Are you sure you want to delete this domain?")) {
+        db.collection("domains").doc(id).delete().then(() => {
+          loadDomains();
+        });
+      }
+    }
+
+    // Init
+    loadDomains();
+  </script>
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

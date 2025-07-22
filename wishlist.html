@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Wishlist | Intern Choice</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Your Wishlist</h1>
+    <div id="wishlist-items" class="item-list">Loading your wishlist...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = { /* your config */ };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    const wishlist = document.getElementById('wishlist-items');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const wishRef = collection(db, "users", user.uid, "wishlist");
+        const snapshot = await getDocs(wishRef);
+        if (snapshot.empty) {
+          wishlist.textContent = "Your wishlist is empty.";
+        } else {
+          wishlist.innerHTML = '';
+          snapshot.forEach(doc => {
+            const item = doc.data();
+            wishlist.innerHTML += `<div class="card">${item.title} - ₹${item.price}</div>`;
+          });
+        }
+      } else {
+        wishlist.textContent = "Please login to view your wishlist.";
+      }
+    });
+  </script>
+</body>
+</html>
