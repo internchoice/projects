@@ -4,19 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Top IoT Final Year Projects with Source Code – Nashik | Sinnar | Sangamner | InternChoice</title>
+  <title>Top IoT Final Year Projects with Source Code – InternChoice</title>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow">
   <meta name="author" content="InternChoice">
   <link rel="canonical" href="https://projects.internchoice.com/sub#iot" />
-
   <meta name="description"
-    content="Explore the best IoT final year projects with source code, kits, and expert guidance for engineering students in Nashik, Sinnar, and Sangamner. Choose from smart home, sensor-based, Arduino, Raspberry Pi, and real-time IoT projects for BE, BTech, Diploma – 2025.">
-
+    content="Explore the best IoT final year projects with source code, kits, and expert guidance for engineering students in Nashik, Sinnar, and Sangamner. Choose from smart home, sensor-based, Arduino, Raspberry Pi, and real-time IoT projects.">
   <meta name="keywords"
-    content="IoT final year projects Nashik, IoT projects for engineering students, Raspberry Pi final year projects Sinnar, Arduino IoT projects Sangamner, best IoT projects near me, sensor-based IoT projects with source code, low cost IoT kits for students, BE IoT projects 2025, smart home automation project Nashik, IoT project list for final year, IoT embedded projects Sinnar, cloud based IoT projects Sangamner, real time IoT systems final year, top rated IoT final year projects in Maharashtra Python final year projects Nashik, Python projects with source code Sinnar, BE computer projects in Python, Python project ideas for final year students Sangamner, AI and ML Python projects, Django projects for engineering students, web development Python projects Nashik, automation projects in Python 2025, top Python mini projects for diploma students, Python college projects near me, student-friendly Python projects Sangamner, Python-based real-time systems, free Python project download Nashik, best Python projects with reports, Python IoT projects Nashik machine learning final year projects Nashik, ML projects with source code Sinnar, AI projects for engineering students Sangamner, Python machine learning projects 2025, final year ML project ideas near me, ML prediction system projects, student-friendly ML project kits, BE machine learning projects Nashik, AI & ML final year projects, real-time ML models for college students, low cost machine learning projects Sangamner, supervised learning project ideas, deep learning projects Nashik, mini machine learning projects for diploma students, final year project ML Nashik with datasets">
+    content="IoT projects, final year, Arduino, Raspberry Pi, BE projects, Nashik, Sinnar, Sangamner, InternChoice">
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap"
@@ -45,6 +41,7 @@
       display: block;
       padding: 40px 20px;
       animation: fadeIn 0.6s ease-in-out;
+      position: relative;
     }
 
     .subdomain-section h2 {
@@ -104,27 +101,47 @@
       background: #0056b3;
     }
 
-    .project-card.hide {
+    .blur-overlay {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 50%);
+      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.5);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .blur-overlay.hidden {
       display: none;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+    .blur-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .blur-content p {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .project-card.hide {
+      display: none;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Shopping Bar (visible after login) -->
+  <!-- Shopping Bar -->
   <div class="shopping-wrapper hidden" id="shopping-section">
     <div class="container">
       <div class="shopping-links">
@@ -135,7 +152,7 @@
     </div>
   </div>
 
-  <!-- Theme Toggle Button -->
+  <!-- Theme Toggle -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
   <!-- Navbar -->
@@ -144,7 +161,6 @@
       <img src="assets/img/intern_logo_t.png" alt="Logo Light" class="logo-light" />
       <img src="assets/img/logo_t.png" alt="Logo Dark" class="logo-dark" />
     </div>
-
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
     <div class="nav-links" id="nav-links">
       <a href="index.html">Home</a>
@@ -155,23 +171,31 @@
     </div>
   </nav>
 
-  <!-- Search Bar -->
+  <!-- Search -->
   <div class="search-bar">
     <input type="text" id="project-search" placeholder="Search projects...">
   </div>
 
-  <!-- Section for Dynamic Content -->
+  <!-- Projects -->
   <section class="subdomain-section">
     <h2 id="domain-title">Projects</h2>
     <div class="project-list">
       <div class="project-grid" id="project-grid">
-        <!-- Dynamic Cards Will Be Injected Here -->
+        <!-- Dynamic Cards Here -->
+      </div>
+    </div>
+    <div id="blur-overlay" class="blur-overlay hidden">
+      <div class="blur-content">
+        <p>Please login to view all projects.</p>
+        <a href="login.html" class="view-more-btn">Login to Unlock</a>
       </div>
     </div>
   </section>
+
   <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">
     <i class="fab fa-whatsapp"></i> Chat with Us
   </a>
+
   <footer>
     <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
     <a href="privacy.html">Privacy Policy</a> |
@@ -179,9 +203,10 @@
     <a href="refund.html">Refund Policy</a>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 
   <script>
     const firebaseConfig = {
@@ -195,17 +220,23 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
   </script>
 
   <script>
     const projectGrid = document.getElementById('project-grid');
     const domainTitle = document.getElementById('domain-title');
     const searchInput = document.getElementById('project-search');
+    const blurOverlay = document.getElementById('blur-overlay');
+
+    let loggedIn = false;
 
     function formatName(slug) {
-      return slug
-        .replace(/-/g, ' ')
-        .replace(/\b\w/g, l => l.toUpperCase());
+      return slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function isUserLoggedIn() {
+      return loggedIn;
     }
 
     async function loadProjects(domain) {
@@ -214,13 +245,13 @@
 
       try {
         const snapshot = await db.collection("projects").where("domain", "==", domain).get();
-
         if (snapshot.empty) {
           projectGrid.innerHTML = "<p>No projects available for this domain.</p>";
           return;
         }
 
         projectGrid.innerHTML = "";
+        let count = 0;
 
         snapshot.forEach(doc => {
           const data = doc.data();
@@ -231,8 +262,20 @@
             <p>${data.description || 'No description available.'}</p>
             <a href="details.html#${data.slug}" class="view-more-btn">View More</a>
           `;
+          if (!isUserLoggedIn() && count >= 3) {
+            card.style.filter = "blur(3px)";
+            card.style.pointerEvents = "none";
+          }
           projectGrid.appendChild(card);
+          count++;
         });
+
+        if (!isUserLoggedIn() && count > 3) {
+          blurOverlay.classList.remove("hidden");
+        } else {
+          blurOverlay.classList.add("hidden");
+        }
+
       } catch (err) {
         projectGrid.innerHTML = `<p style="color:red;">Error loading projects: ${err.message}</p>`;
       }
@@ -240,10 +283,13 @@
 
     function handleHashChange() {
       const hash = window.location.hash.replace("#", "");
-      if (hash) {
-        loadProjects(hash);
-      }
+      if (hash) loadProjects(hash);
     }
+
+    auth.onAuthStateChanged(user => {
+      loggedIn = !!user;
+      handleHashChange();
+    });
 
     window.addEventListener("DOMContentLoaded", handleHashChange);
     window.addEventListener("hashchange", handleHashChange);
@@ -257,8 +303,6 @@
     });
   </script>
 
-  <!-- Your theme toggle and nav toggle script -->
-  <!-- <script src="assets/js/script.js"></script> -->
   <script type="module" src="assets/js/script.js"></script>
 </body>
 

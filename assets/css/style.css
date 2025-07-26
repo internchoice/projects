@@ -1252,3 +1252,216 @@ footer a{
   font-weight: 600;
   cursor: pointer;
 }
+
+
+
+  .auth-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 60px auto 20px;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  }
+
+  .auth-tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+  }
+
+  .auth-tab.active {
+    color: #007bff;
+    border-color: #007bff;
+  }
+
+  form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  form.active {
+    display: flex;
+  }
+
+  input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+  }
+
+  .forgot-password {
+    text-align: right;
+    font-size: 0.85rem;
+  }
+
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  button {
+    padding: 12px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  button.button-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .form-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    color: #555;
+  }
+
+  .form-footer span {
+    font-weight: 600;
+    color: #007bff;
+    cursor: pointer;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .google-btn {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .google-btn button {
+    background: #db4437;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: auto;
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    max-width: 90%;
+    text-align: center;
+    position: relative;
+  }
+
+  .modal-content h3 {
+    margin-top: 0;
+  }
+
+  .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #000;
+  }
+
+  @media (max-width: 480px) {
+    .auth-container {
+      margin: 40px 10px;
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+
+    .auth-tab {
+      font-size: 0.95rem;
+      padding: 10px 0;
+    }
+
+    input, button {
+      font-size: 0.95rem;
+    }
+
+    .modal-content {
+      margin-top: 40%;
+      padding: 20px;
+    }
+
+    .google-btn button {
+      font-size: 0.95rem;
+      gap: 6px;
+    }
+
+    .form-footer {
+      font-size: 0.85rem;
+    }
+  }
