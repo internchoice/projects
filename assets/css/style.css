@@ -417,6 +417,7 @@
       font-size: 1.5rem;
       cursor: pointer;
       border: none;
+      z-index: 99999;
     }
 
     .theme-toggle-btn:hover {
@@ -874,6 +875,7 @@ form.loading {
         align-items: center;
         text-decoration: none;
         transition: background-color 0.3s ease;
+        z-index: 99999;
     }
 
     .whatsapp-btn:hover {
@@ -1393,7 +1395,7 @@ footer a{
     text-align: center;
     padding: 1rem;
     font-size: 0.85rem;
-    color: #999;
+    color: #fff;
     margin-top: auto;
   }
 
