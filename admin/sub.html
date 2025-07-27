@@ -8,22 +8,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <style>
-    /* body {
-      font-family: 'Montserrat', sans-serif;
-      background: var(--bg-color, #f9f9f9);
-      color: var(--text-color, #333);
-      padding: 20px;
-    } */
-
     h2, h3 {
       color: var(--accent-color, #06B6D4);
     }
 
     .form-wrapper, .project-list {
       max-width: 900px;
-      margin: auto;
+      margin: 50px auto 15px auto;
       background: var(--card-bg, #fff);
-      padding: 30px;
+      padding: 50px;
       border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
       margin-bottom: 40px;
@@ -68,14 +61,6 @@
     .status.success { color: green; }
     .status.error { color: red; }
 
-    .project-list h3 {
-      margin-top: 40px;
-      margin-bottom: 10px;
-      font-size: 1.3rem;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-
     .project-table {
       width: 100%;
       border-collapse: collapse;
@@ -108,8 +93,6 @@
       height: 40px;
     }
 
-
-
     @media (max-width: 768px) {
       .form-wrapper, .project-list {
         padding: 20px;
@@ -123,6 +106,10 @@
       .nav-links {
         flex-direction: column;
       }
+    }
+
+    .nav-links a {
+      font-weight: bolder !important;
     }
   </style>
 </head>
@@ -140,8 +127,8 @@
       <a href="dashboard.html">Home</a>
       <a href="domain.html">Domains</a>
       <a href="sub.html">Sub Domains</a>
-      <a href="profile.html">Profile</a>
       <a href="manage.html">Details</a>
+      <a href="profile.html">Profile</a>
     </div>
   </nav>
 
@@ -165,12 +152,17 @@
     <div id="message" class="status"></div>
   </div>
 
-  <!-- Grouped Project Sections -->
+  <!-- Project List with Dropdown Filter -->
   <div class="project-list" id="projectSections">
     <h2>Projects by Domain</h2>
+    <label for="domain-filter">Filter by Domain</label>
+    <select id="domain-filter">
+      <option value="">-- Select Domain --</option>
+    </select>
+    <div id="filteredProjects"></div>
   </div>
 
-  <!-- Firebase Firestore -->
+  <!-- Firebase & Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
     import {
@@ -196,71 +188,79 @@
     const db = getFirestore(app);
 
     const domainSelect = document.getElementById('domain-select');
+    const domainFilter = document.getElementById('domain-filter');
     const titleInput = document.getElementById('title');
     const descInput = document.getElementById('description');
     const slugInput = document.getElementById('slug');
     const submitBtn = document.getElementById('submitBtn');
     const messageDiv = document.getElementById('message');
-    const sectionContainer = document.getElementById('projectSections');
+    const filteredProjectsDiv = document.getElementById('filteredProjects');
 
     let editId = null;
+    let allProjects = [];
 
     async function fetchDomains() {
       const snapshot = await getDocs(collection(db, "domains"));
       snapshot.forEach(doc => {
         const d = doc.data();
-        const opt = document.createElement("option");
-        opt.value = d.slug;
-        opt.textContent = d.name;
-        domainSelect.appendChild(opt);
+
+        // Add options to both dropdowns
+        [domainSelect, domainFilter].forEach(select => {
+          const opt = document.createElement("option");
+          opt.value = d.slug;
+          opt.textContent = d.name;
+          select.appendChild(opt);
+        });
       });
     }
 
     async function loadProjects() {
       const snapshot = await getDocs(collection(db, "projects"));
-      const grouped = {};
-
+      allProjects = [];
       snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const domain = data.domain;
-        if (!grouped[domain]) grouped[domain] = [];
-        grouped[domain].push({ id: docSnap.id, ...data });
+        allProjects.push({ id: docSnap.id, ...docSnap.data() });
       });
+      renderProjectsByDomain(domainFilter.value);
+    }
 
-      sectionContainer.innerHTML = "<h2>Projects by Domain</h2>";
+    function renderProjectsByDomain(domain) {
+      filteredProjectsDiv.innerHTML = "";
 
-      for (const [domain, projects] of Object.entries(grouped)) {
-        const section = document.createElement("div");
-        const heading = document.createElement("h3");
-        heading.textContent = domain;
-        section.appendChild(heading);
-
-        const table = document.createElement("table");
-        table.className = "project-table";
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>ID</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${projects.map(p => `
-              <tr>
-                <td>${p.title}</td>
-                <td>${p.slug}</td>
-                <td>
-                  <button class="action-btn edit-btn" data-id="${p.id}">Edit</button>
-                  <button class="action-btn delete-btn" data-id="${p.id}">Delete</button>
-                </td>
-              </tr>
-            `).join("")}
-          </tbody>
-        `;
-        section.appendChild(table);
-        sectionContainer.appendChild(section);
+      if (!domain) {
+        filteredProjectsDiv.innerHTML = "<p>Please select a domain to view projects.</p>";
+        return;
       }
+
+      const projects = allProjects.filter(p => p.domain === domain);
+      if (projects.length === 0) {
+        filteredProjectsDiv.innerHTML = "<p>No projects found in this domain.</p>";
+        return;
+      }
+
+      const table = document.createElement("table");
+      table.className = "project-table";
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${projects.map(p => `
+            <tr>
+              <td>${p.title}</td>
+              <td>${p.slug}</td>
+              <td>
+                <button class="action-btn edit-btn" data-id="${p.id}">Edit</button>
+                <button class="action-btn delete-btn" data-id="${p.id}">Delete</button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
+      filteredProjectsDiv.appendChild(table);
     }
 
     submitBtn.addEventListener("click", async () => {
@@ -297,22 +297,23 @@
       }
     });
 
-    sectionContainer.addEventListener("click", async (e) => {
+    domainFilter.addEventListener("change", () => {
+      renderProjectsByDomain(domainFilter.value);
+    });
+
+    filteredProjectsDiv.addEventListener("click", async (e) => {
       const id = e.target.dataset.id;
       if (!id) return;
 
       if (e.target.classList.contains("edit-btn")) {
-        const snapshot = await getDocs(collection(db, "projects"));
-        snapshot.forEach(d => {
-          if (d.id === id) {
-            const data = d.data();
-            domainSelect.value = data.domain;
-            titleInput.value = data.title;
-            descInput.value = data.description;
-            slugInput.value = data.slug;
-            editId = id;
-          }
-        });
+        const project = allProjects.find(p => p.id === id);
+        if (project) {
+          domainSelect.value = project.domain;
+          titleInput.value = project.title;
+          descInput.value = project.description;
+          slugInput.value = project.slug;
+          editId = id;
+        }
       }
 
       if (e.target.classList.contains("delete-btn")) {
@@ -326,8 +327,6 @@
     fetchDomains();
     loadProjects();
   </script>
-
-  <!-- Optional Theme JS -->
-  <script src="../assets/js/script.js"></script>
+  <script type="module" src="../assets/js/script.js"></script>
 </body>
 </html>

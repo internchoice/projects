@@ -8,60 +8,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
 <style>
-   :root {
+  :root {
     --card-bg: #ffffff;
-    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow: rgba(0, 0, 0, 0.08);
     --accent-color: #06B6D4;
-    --text-color: #333333;
+    --accent-hover: #0891b2;
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --text-color: #0f172a;
+    --muted-color: #6b7280;
+    --border-color: #e5e7eb;
     --bg-color: #f9f9f9;
   }
 
-  body {
-
+  /* body {
     margin: 0;
-    /* padding: 20px; */
-  }
-/*
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    background-color: var(--accent-color);
-    color: white;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    border-radius: 10px;
-  }
-
-  .logo-container img {
-    height: 40px;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
   } */
 
   .form-box {
     background: var(--card-bg);
-    padding: 25px 20px;
+    padding: 40px 30px;
     border-radius: 10px;
     max-width: 800px;
-    margin: 0 auto 40px auto;
-    box-shadow: 0 0 12px var(--shadow);
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow);
   }
 
   .form-box h2 {
-    margin-bottom: 20px;
-    font-size: 1.4rem;
+    margin-bottom: 24px;
+    font-size: 1.5rem;
     color: var(--accent-color);
     text-align: center;
   }
@@ -70,12 +48,11 @@
   .form-box select,
   .form-box textarea {
     width: 100%;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     padding: 12px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     font-size: 15px;
-    font-family: inherit;
     box-sizing: border-box;
   }
 
@@ -99,37 +76,50 @@
   }
 
   .form-box button:hover {
-    background: #15ACE1;
+    background: var(--accent-hover);
   }
-.project-section {
-  width: 100%;
-  margin-bottom: 40px;
-}
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 0 20px;
-}
+  #domainFilter {
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    display: block;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background: white;
+  }
+
+  .project-section {
+    width: 100%;
+    margin: 40px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+    gap: 24px;
+    padding: 0 20px;
+  }
 
   .card {
-    background: var(--card-bg);
+    background: #fff;
     border-radius: 12px;
-    box-shadow: 0 0 10px var(--shadow);
+    box-shadow: 0 4px 12px var(--shadow);
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    gap: 15px;
-    padding: 15px;
+    gap: 16px;
+    padding: 16px;
     align-items: flex-start;
-    transition: transform 0.2s;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color);
   }
 
   .card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
 
   .card img {
@@ -138,21 +128,26 @@
     object-fit: cover;
     border-radius: 10px;
     flex-shrink: 0;
+    border: 1px solid #e0e0e0;
   }
 
   .card-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .card-content h3 {
     margin: 0 0 8px;
     font-size: 1.2rem;
+    font-weight: 600;
     color: var(--accent-color);
   }
 
   .card-content p {
     margin: 4px 0;
     font-size: 0.95rem;
+    color: var(--muted-color);
   }
 
   .card-content button {
@@ -160,32 +155,36 @@
     margin-right: 10px;
     padding: 8px 14px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     color: white;
     cursor: pointer;
     font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
   }
 
   .card-content button.edit {
     background: var(--accent-color);
   }
 
-  .card-content button.delete {
-    background: #e53935;
+  .card-content button.edit:hover {
+    background: var(--accent-hover);
   }
 
+  .card-content button.delete {
+    background: var(--danger);
+  }
+
+  .card-content button.delete:hover {
+    background: var(--danger-hover);
+  }
 
   /* Responsive Adjustments */
   @media (max-width: 768px) {
-    nav {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
     .card {
       flex-direction: column;
-      text-align: center;
       align-items: center;
+      text-align: center;
     }
 
     .card img {
@@ -193,23 +192,17 @@
       height: auto;
     }
 
-    .card-content {
-      width: 100%;
-    }
-
-    .form-box {
-      padding: 20px 16px;
-    }
-
-    .form-box input,
-    .form-box select,
-    .form-box textarea {
-      font-size: 14px;
-    }
-
     .card-content button {
       width: 100%;
       margin: 6px 0;
+    }
+
+    .form-box {
+      padding: 30px 20px;
+    }
+
+    .card-grid {
+      padding: 0 10px;
     }
   }
 
@@ -219,7 +212,7 @@
     }
 
     .form-box h2 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
 
     .card-content p {
@@ -258,7 +251,7 @@
     <input type="text" id="discount" placeholder="Discount (e.g., 20%)">
     <input type="text" id="stock" placeholder="Stock (e.g., 10)">
     <textarea id="description" placeholder="Project Description"></textarea>
-    <textarea id="info" placeholder="Additional Info (comma-separated)"></textarea>
+    <input id="info" placeholder="Additional Info (don't edit)" disabled></input>
 
     <input type="text" id="language" placeholder="Language (e.g., Python)">
     <input type="text" id="hardware" placeholder="Hardware (e.g., DHT11)">
@@ -267,6 +260,13 @@
     <input type="text" id="imageUrl" placeholder="Image URL (e.g., https://...)">
 
     <button onclick="addOrUpdate()">Save Project</button>
+  </div>
+
+  <!-- ADDED: Domain Filter Dropdown for projects display -->
+  <div style="text-align:center; margin: 30px 0;">
+    <select id="domainFilter" onchange="filterProjectsByDomain(this.value)">
+      <option value="">-- Select Domain to View Projects --</option>
+    </select>
   </div>
 
   <div id="projectsGrid"></div>
@@ -289,12 +289,17 @@
     const domainSelect = document.getElementById('domainSelect');
     const titleSelect = document.getElementById('titleSelect');
     const grid = document.getElementById('projectsGrid');
+    const domainFilter = document.getElementById('domainFilter');
     let editId = null;
 
+    // Load domains into both domainSelect and domainFilter dropdowns
     async function loadDomains() {
       const domains = await db.collection("domains").get();
       domains.forEach(doc => {
-        domainSelect.innerHTML += `<option value="${doc.data().slug}">${doc.data().name}</option>`;
+        const data = doc.data();
+        const option = `<option value="${data.slug}">${data.name}</option>`;
+        domainSelect.innerHTML += option;
+        domainFilter.innerHTML += option;
       });
     }
 
@@ -337,7 +342,12 @@
       }
 
       clearForm();
-      loadProjects();
+      // Refresh the projects list according to selected filter or default
+      if(domainFilter.value) {
+        filterProjectsByDomain(domainFilter.value);
+      } else {
+        grid.innerHTML = ""; // clear if no filter selected
+      }
     }
 
     function clearForm() {
@@ -355,57 +365,60 @@
       document.getElementById('imageUrl').value = '';
     }
 
-async function loadProjects() {
-  grid.innerHTML = "";
+    // FILTER projects by selected domain
+    async function filterProjectsByDomain(selectedDomain) {
+      grid.innerHTML = ""; // Clear current projects display
 
-  try {
-    const snap = await db.collection("projectDetails").get();
-    const groupedProjects = {};
-
-    snap.forEach(doc => {
-      const data = doc.data();
-      const domain = data.domain || "Uncategorized";
-      if (!groupedProjects[domain]) {
-        groupedProjects[domain] = [];
+      if (!selectedDomain) {
+        // No domain selected, clear grid
+        grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
+        return;
       }
-      groupedProjects[domain].push({ id: doc.id, data });
-    });
 
-    for (const domain in groupedProjects) {
-      const section = document.createElement('div');
-      section.className = "project-section";
-      section.innerHTML = `<h2 style="margin: 40px 10px 20px; color: #06B6D4;">${domain.toUpperCase()}</h2>`;
+      try {
+        const snap = await db.collection("projectDetails")
+          .where("domain", "==", selectedDomain)
+          .get();
 
-      const domainGrid = document.createElement('div');
-      domainGrid.className = "card-grid";
+        if (snap.empty) {
+          grid.innerHTML = `<p style="text-align:center; color:gray;">No projects found in ${selectedDomain}.</p>`;
+          return;
+        }
 
-      groupedProjects[domain].forEach(({ id, data }) => {
-        const card = document.createElement('div');
-        card.className = "card";
-        card.innerHTML = `
-          <img src="${data.imageUrl || '../assets/img/project-placeholder.jpg'}" alt="${data.title}">
-          <div class="card-content">
-            <h3>${data.title || 'Untitled'}</h3>
-            <p><strong>Price:</strong> ₹${data.price || '--'}</p>
-            <p><strong>Discount:</strong> ${data.discount || '--'}</p>
-            <p><strong>Delivery:</strong> ${data.delivery || '--'}</p>
-            <p><strong>Stock:</strong> ${data.stock || '--'}</p>
-            <p><strong>Category:</strong> ${data.domain || '--'}</p>
-            <button class="edit" onclick="editProject('${id}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Edit</button>
-            <button class="delete" onclick="deleteProject('${id}')">Delete</button>
-          </div>
-        `;
-        domainGrid.appendChild(card);
-      });
+        const section = document.createElement('div');
+        section.className = "project-section";
+        section.innerHTML = `<h2 style="margin: 20px 20px; color: #06B6D4;">${selectedDomain.toUpperCase()}</h2>`;
 
-      section.appendChild(domainGrid);
-      grid.appendChild(section);
+        const domainGrid = document.createElement('div');
+        domainGrid.className = "card-grid";
+
+        snap.forEach(doc => {
+          const data = doc.data();
+          const card = document.createElement('div');
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${data.imageUrl || '../assets/img/project-placeholder.jpg'}" alt="${data.title}">
+            <div class="card-content">
+              <h3>${data.title || 'Untitled'}</h3>
+              <p><strong>Price:</strong> ₹${data.price || '--'}</p>
+              <p><strong>Discount:</strong> ${data.discount || '--'}</p>
+              <p><strong>Delivery:</strong> ${data.delivery || '--'}</p>
+              <p><strong>Stock:</strong> ${data.stock || '--'}</p>
+              <p><strong>Category:</strong> ${data.domain || '--'}</p>
+              <button class="edit" onclick="editProject('${doc.id}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Edit</button>
+              <button class="delete" onclick="deleteProject('${doc.id}')">Delete</button>
+            </div>
+          `;
+          domainGrid.appendChild(card);
+        });
+
+        section.appendChild(domainGrid);
+        grid.appendChild(section);
+      } catch (err) {
+        console.error("Error filtering projects:", err);
+        grid.innerHTML = "<p style='color: red; text-align: center;'>Failed to load projects.</p>";
+      }
     }
-  } catch (err) {
-    console.error("Error loading projects:", err);
-    grid.innerHTML = "<p style='color: red; text-align: center;'>Failed to load projects.</p>";
-  }
-}
 
     function editProject(id, data) {
       editId = id;
@@ -429,13 +442,17 @@ async function loadProjects() {
     async function deleteProject(id) {
       if (confirm("Are you sure you want to delete this project?")) {
         await db.collection("projectDetails").doc(id).delete();
-        loadProjects();
+        if(domainFilter.value) {
+          filterProjectsByDomain(domainFilter.value);
+        } else {
+          grid.innerHTML = "";
+        }
       }
     }
 
     loadDomains();
-    loadProjects();
+    grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
   </script>
-  <script src="../assets/js/script.js"></script>
+  <script type="module" src="../assets/js/script.js"></script>
 </body>
 </html>

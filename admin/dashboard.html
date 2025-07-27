@@ -1,83 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | Intern Choice Projects</title>
-  <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/style.css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Intern Choice Projects</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <style>
+    /* body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--background);
+      color: var(--text-color);
+    } */
+
+
     .dashboard-container {
-      max-width: 600px;
-      margin: 80px auto;
+      max-width: 1200px;
+      margin: 100px auto 40px;
       padding: 30px;
-      background-color: var(--card-bg, #fff);
+      background: var(--light);
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s, color 0.3s;
+      box-shadow: var(--shadow);
     }
 
-    .theme-toggle-btn {
-      position: fixed;
-      right: 15px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 1000;
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    #admin-info {
+      font-size: 16px;
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .order-summary {
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .user-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: 0.3s ease;
+    }
+
+    .user-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .user-card strong {
+      color: var(--primary-dark);
+    }
+
+    .order-details {
+      margin-top: 15px;
+      padding-left: 10px;
+    }
+
+    .order-item {
+      padding: 12px;
+      background-color: var(--lightest);
+      margin-bottom: 10px;
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
     }
 
     .logout-btn {
       display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
+      margin: 30px auto 0;
+      padding: 10px 24px;
       background-color: #dc3545;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
+      display: block;
+    }
+
+    #no-orders {
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 40px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      /* background-color: #f9f9f9; */
+      color: white !important;
+      font-size: 14px;
+      color: #777;
+    }
+
+    @media screen and (max-width: 768px) {
+      .dashboard-container {
+        margin: 60px 20px;
+        padding: 20px;
+      }
+    }
+        .logo-container img {
+      height: 40px;
+    }
+    .nav-links a{
+      font-weight:  bolder !important;
     }
   </style>
 </head>
-
 <body>
+  <!-- Theme Toggle Button -->
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
+  <!-- Navbar -->
+   <!-- Navbar -->
   <nav>
     <div class="logo-container">
-      <img src="../assets/img/intern_logo_t.png" class="logo-light" alt="Logo Light">
-      <img src="../assets/img/logo_t.png" class="logo-dark" alt="Logo Dark">
+      <img src="../assets/img/intern_logo_t.png" alt="Logo Light" class="logo-light" />
+      <img src="../assets/img/logo_t.png" alt="Logo Dark" class="logo-dark" />
     </div>
+
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
     <div class="nav-links" id="nav-links">
       <a href="dashboard.html">Home</a>
-      <a href="domain.html">Domains</a> 
+      <a href="domain.html">Domains</a>
       <a href="sub.html">Sub Domains</a>
+            <a href="manage.html">Details</a>
       <a href="profile.html">Profile</a>
-      <a href="manage.html">Details</a>
 
-     
-      <a href="login.html" class="btn" id="authButton">Login / Signup</a>
+      <!-- <a href="login.html" class="btn" id="auth-link">Login / Signup</a> -->
     </div>
   </nav>
 
+
   <div class="dashboard-container">
     <h1>Welcome to Your Dashboard</h1>
-    <p id="user-info">Loading user info...</p>
+    <p id="admin-info">Loading...</p>
+    <div class="order-summary">
+      📦 <strong>Total Orders:</strong> <span id="total-orders">0</span>
+    </div>
+    <div id="orders"></div>
+    <p id="no-orders" style="display:none;">No orders found.</p>
     <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 
   <footer>
-    <p>&copy; 2025 Intern Choice Projects. All Rights Reserved.</p>
+    &copy; 2025 Intern Choice Projects. All rights reserved.
   </footer>
 
-  <!-- Firebase -->
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
@@ -85,33 +172,91 @@
       projectId: "ic-project-6989d",
       storageBucket: "ic-project-6989d.appspot.com",
       messagingSenderId: "90473196739",
-      appId: "1:90473196739:web:db4e82108c0355a2fb0676",
-      measurementId: "G-WWH1GZZDKX"
+      appId: "1:90473196739:web:db4e82108c0355a2fb0676"
     };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        document.getElementById('user-info').textContent =
-          `Name: ${user.displayName || 'No Name'}, Email: ${user.email}`;
+        if (user.email === "service.internchoice@gmail.com") {
+          document.getElementById('admin-info').textContent = `👤 Admin: ${user.email}`;
+          fetchAllOrders();
+        } else {
+          window.location.href = 'dashboard.html';
+        }
       } else {
         window.location.href = 'login.html';
       }
     });
 
-    function logout() {
-      auth.signOut().then(() => window.location.href = 'login.html');
+    function fetchAllOrders() {
+      const ordersContainer = document.getElementById('orders');
+      let totalOrders = 0;
+
+      db.collection("users").get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          document.getElementById('no-orders').style.display = "block";
+          return;
+        }
+
+        let fetchPromises = [];
+
+        querySnapshot.forEach((userDoc) => {
+          const userEmail = userDoc.data().email;
+          const userId = userDoc.id;
+
+          const orderPromise = db.collection("users").doc(userId).collection("orders").get().then(orderSnap => {
+            if (!orderSnap.empty) {
+              const userCard = document.createElement('div');
+              userCard.className = "user-card";
+              userCard.innerHTML = `
+                <strong>User:</strong> ${userEmail}<br>
+                <strong>Total Orders:</strong> ${orderSnap.size}
+              `;
+
+              const orderList = document.createElement('div');
+              orderList.className = "order-details";
+
+              orderSnap.forEach(orderDoc => {
+                const orderData = orderDoc.data();
+                orderList.innerHTML += `
+                  <div class="order-item">
+                    <strong>Product:</strong> ${orderData.title}<br>
+                    <strong>Price:</strong> ₹${orderData.price}<br>
+                    <strong>Quantity:</strong> ${orderData.quantity || 1}<br>
+                    <strong>Date:</strong> ${orderData.date || 'N/A'}
+                  </div>
+                `;
+                totalOrders++;
+              });
+
+              userCard.appendChild(orderList);
+              ordersContainer.appendChild(userCard);
+            }
+          });
+
+          fetchPromises.push(orderPromise);
+        });
+
+        Promise.all(fetchPromises).then(() => {
+          document.getElementById('total-orders').textContent = totalOrders;
+          if (totalOrders === 0) {
+            document.getElementById('no-orders').style.display = "block";
+          }
+        });
+      });
     }
 
-    // Theme Toggle
-    const toggleBtn = document.getElementById('theme-toggle');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('theme-dark');
-    });
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    }
   </script>
-<script src="../assets/js/script.js"></script>
-</body>
+  <script type="module" src="../assets/js/script.js"></script>
 
+</body>
 </html>
