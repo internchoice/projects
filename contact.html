@@ -73,52 +73,68 @@
   </nav>
 
   <!-- Contact Section -->
-  <section class="contact-container">
-    <div class="contact-form">
-      <h2>Send Us a Message</h2>
-      <form>
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <input type="number" placeholder="Your Phone Number" required />
-        <input type="text" placeholder="Subject" />
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  <!-- Contact Section -->
+  <section class="contact-container px-4 py-10 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
-    <div class="contact-info">
-      <div class="space-y-6">
+      <!-- Contact Form -->
+      <div class="contact-form space-y-6 break-words">
+        <h2 class="text-2xl font-semibold">Send Us a Message</h2>
+        <form class="space-y-4">
+          <input type="text" placeholder="Your Name" required class="w-full p-3 border rounded break-words" />
+          <input type="email" placeholder="Your Email" required class="w-full p-3 border rounded break-words" />
+          <input type="number" placeholder="Your Phone Number" required class="w-full p-3 border rounded break-words" />
+          <input type="text" placeholder="Subject" class="w-full p-3 border rounded break-words" />
+          <textarea placeholder="Your Message" required
+            class="w-full p-3 border rounded h-32 resize-none break-words whitespace-normal"></textarea>
+          <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full md:w-auto">
+            Submit
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="contact-info space-y-6 break-words">
         <div class="flex items-start space-x-4">
-          <i class="bi bi-envelope text-2xl text-blue-600"></i>
-          <div>
+          <i class="bi bi-envelope text-2xl text-blue-600 shrink-0"></i>
+          <div class="break-words whitespace-normal w-full">
             <p class="font-semibold">Email</p>
-            <p>project.internchoice@gmail.com</p>
+            <p class="text-sm break-words overflow-wrap break-word max-w-full">
+              project.internchoice@gmail.com
+            </p>
           </div>
         </div>
+
+
         <div class="flex items-start space-x-4">
-          <i class="bi bi-telephone text-2xl text-blue-600"></i>
-          <div>
+          <i class="bi bi-telephone text-2xl text-blue-600 shrink-0"></i>
+          <div class="whitespace-normal break-words">
             <p class="font-semibold">Phone</p>
-            <p>+91-9156646301</p>
+            <p class="text-sm">+91-9156646301</p>
           </div>
         </div>
+
         <div class="flex items-start space-x-4">
-          <i class="bi bi-whatsapp text-2xl text-green-600"></i>
-          <div>
+          <i class="bi bi-whatsapp text-2xl text-green-600 shrink-0"></i>
+          <div class="whitespace-normal break-words">
             <p class="font-semibold">WhatsApp Only</p>
-            <p>+91-8080778973</p>
+            <p class="text-sm">+91-8080778973</p>
           </div>
         </div>
+
         <div class="flex items-start space-x-4">
-          <i class="bi bi-geo-alt text-2xl text-blue-600"></i>
-          <div>
+          <i class="bi bi-geo-alt text-2xl text-blue-600 shrink-0"></i>
+          <div class="whitespace-normal break-words">
             <p class="font-semibold">Address</p>
-            <p>Sinnar, Nashik, Maharashtra</p>
+            <p class="text-sm">Sinnar, Nashik, Maharashtra</p>
           </div>
         </div>
       </div>
+
     </div>
   </section>
+
 
   <!-- WhatsApp Chat Button -->
   <a href="https://wa.me/message/6SQ7PKNGRJM5P1" target="_blank" class="whatsapp-btn">

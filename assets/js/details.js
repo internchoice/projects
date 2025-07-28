@@ -8,7 +8,6 @@ const firebaseConfig = {
   appId: "1:90473196739:web:db4e82108c0355a2fb0676"
 };
 
-// ✅ Prevent duplicate initialization
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -16,11 +15,14 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// Get slug from URL
-const slug = location.hash.replace("#", "");
+function getSlugFromHash() {
+  return location.hash.replace("#", "").trim();
+}
 
 // Load project details
 async function loadProjectDetails(slug) {
+  if (!slug) return;
+
   try {
     const projectSnap = await db.collection('projects').where('slug', '==', slug).limit(1).get();
     const detailSnap = await db.collection('projectDetails').where('slug', '==', slug).limit(1).get();
@@ -34,6 +36,7 @@ async function loadProjectDetails(slug) {
       return;
     }
 
+    // Fill UI
     document.getElementById("project-title").textContent = data.title || "Untitled";
     document.getElementById("project-price").textContent = data.price ? `₹${data.price}` : "--";
     document.getElementById("project-discount").textContent = data.discount || "--";
@@ -53,7 +56,11 @@ async function loadProjectDetails(slug) {
       document.getElementById("project-image").src = data.imageUrl;
     }
 
-    loadRelatedProjects(data.domain, slug);
+    // Set up cart/wishlist buttons
+    setupButtons(data.slug);
+
+    // Load related
+    loadRelatedProjects(data.domain, data.slug);
   } catch (err) {
     console.error("Error loading project:", err);
     document.getElementById("project-title").textContent = "Error loading project.";
@@ -64,30 +71,105 @@ async function loadProjectDetails(slug) {
 async function loadRelatedProjects(domain, currentSlug) {
   const container = document.getElementById("relatedProjects");
   container.innerHTML = "";
-  const seen = new Set();
 
-  const snap = await db.collection("projectDetails")
-    .where("domain", "==", domain)
-    .limit(20).get();
+  try {
+    const snap = await db.collection("projectDetails")
+      .where("domain", "==", domain)
+      .limit(20)
+      .get();
 
-  snap.forEach(doc => {
-    const d = doc.data();
-    if (d.slug && d.slug !== currentSlug && !seen.has(d.slug)) {
-      seen.add(d.slug);
-      container.innerHTML += `
-        <div class="related-card">
+    const seen = new Set();
+
+    snap.forEach(doc => {
+      const d = doc.data();
+      if (d.slug && d.slug !== currentSlug && !seen.has(d.slug)) {
+        seen.add(d.slug);
+        const card = document.createElement("div");
+        card.className = "related-card";
+        card.innerHTML = `
           <h4>${d.title}</h4>
-          <a href="details.html#${d.slug}">View More</a>
-        </div>`;
-    }
-  });
+          <a href="#${d.slug}" class="view-more">View More</a>
+        `;
+        container.appendChild(card);
+      }
+    });
 
-  if (seen.size === 0) {
-    container.innerHTML = "<p>No related topics found.</p>";
+    if (seen.size === 0) {
+      container.innerHTML = "<p>No related topics found.</p>";
+    }
+  } catch (error) {
+    console.error("Error loading related projects:", error);
+    container.innerHTML = "<p>Error loading related topics.</p>";
   }
 }
 
-// Tab switch logic
+// Setup buttons (for cart & wishlist)
+function setupButtons(slug) {
+  const cartBtn = document.querySelector('.add-to-cart');
+  const wishlistBtn = document.querySelector('.add-to-wishlist');
+
+  cartBtn.disabled = false;
+  wishlistBtn.disabled = false;
+  cartBtn.textContent = "Add to Cart";
+  wishlistBtn.textContent = "Add to Wishlist";
+
+  cartBtn.onclick = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please login to add this project to your cart.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const title = document.getElementById("project-title").textContent;
+    const price = parseFloat(document.getElementById("project-price").textContent.replace("₹", "")) || 0;
+    const discount = document.getElementById("project-discount").textContent;
+    const imageUrl = document.getElementById("project-image").src;
+
+    try {
+      await db.collection("users").doc(user.uid).collection("cart").doc(slug).set({
+        title, price, discount, imageUrl, slug,
+        quantity: 1,
+        addedAt: new Date()
+      });
+      alert("Added to cart!");
+      cartBtn.textContent = "Added!";
+      cartBtn.disabled = true;
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+      alert("Failed to add to cart.");
+    }
+  };
+
+  wishlistBtn.onclick = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please login to add this project to your wishlist.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const title = document.getElementById("project-title").textContent;
+    const price = parseFloat(document.getElementById("project-price").textContent.replace("₹", "")) || 0;
+    const discount = document.getElementById("project-discount").textContent;
+    const imageUrl = document.getElementById("project-image").src;
+
+    try {
+      await db.collection("users").doc(user.uid).collection("wishlist").doc(slug).set({
+        title, price, discount, imageUrl, slug,
+        addedAt: new Date()
+      });
+      alert("Added to wishlist!");
+      wishlistBtn.textContent = "Wishlisted!";
+      wishlistBtn.disabled = true;
+    } catch (err) {
+      console.error("Add to wishlist failed:", err);
+      alert("Failed to add to wishlist.");
+    }
+  };
+}
+
+// Handle tab switching
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -102,77 +184,14 @@ document.getElementById("nav-toggle").addEventListener("click", () => {
   document.getElementById("nav-links").classList.toggle("active");
 });
 
-// Load project on page load
+// Load project on initial load
 document.addEventListener("DOMContentLoaded", () => {
+  const slug = getSlugFromHash();
   if (slug) loadProjectDetails(slug);
 });
 
-// ✅ Add to Cart Logic
-document.querySelector('.add-to-cart').addEventListener('click', () => {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Please login to add this project to your cart.");
-    window.location.href = "login.html";
-    return;
-  }
-
-  const title = document.getElementById("project-title").textContent;
-  const priceText = document.getElementById("project-price").textContent;
-  const price = parseFloat(priceText.replace("₹", "")) || 0;
-  const discount = document.getElementById("project-discount").textContent;
-  const imageUrl = document.getElementById("project-image").src;
-
-  const cartRef = db.collection("users").doc(user.uid).collection("cart").doc(slug);
-
-  cartRef.set({
-    title,
-    price,
-    discount,
-    imageUrl,
-    slug,
-    quantity: 1,
-    addedAt: new Date()
-  }).then(() => {
-    alert("Added to cart!");
-    document.querySelector('.add-to-cart').textContent = "Added!";
-    document.querySelector('.add-to-cart').disabled = true;
-  }).catch(err => {
-    console.error("Add to cart failed:", err);
-    alert("Failed to add to cart.");
-  });
-});
-// ✅ Add to Wishlist Logic
-document.querySelector('.add-to-wishlist').addEventListener('click', () => {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Please login to add this project to your wishlist.");
-    window.location.href = "login.html";
-    return;
-  }
-
-  const title = document.getElementById("project-title").textContent;
-  const priceText = document.getElementById("project-price").textContent;
-  const price = parseFloat(priceText.replace("₹", "")) || 0;
-  const discount = document.getElementById("project-discount").textContent;
-  const imageUrl = document.getElementById("project-image").src;
-
-  const wishlistRef = db.collection("users").doc(user.uid).collection("wishlist").doc(slug);
-
-  wishlistRef.set({
-    title,
-    price,
-    discount,
-    imageUrl,
-    slug,
-    addedAt: new Date()
-  }).then(() => {
-    alert("Added to wishlist!");
-    document.querySelector('.add-to-wishlist').textContent = "Wishlisted!";
-    document.querySelector('.add-to-wishlist').disabled = true;
-  }).catch(err => {
-    console.error("Add to wishlist failed:", err);
-    alert("Failed to add to wishlist.");
-  });
+// Listen to hash changes for dynamic navigation
+window.addEventListener("hashchange", () => {
+  const newSlug = getSlugFromHash();
+  if (newSlug) loadProjectDetails(newSlug);
 });
