@@ -79,17 +79,27 @@ async function loadRelatedProjects(domain, currentSlug) {
       .get();
 
     const seen = new Set();
+    let count = 0;
+    const maxItems = 4; // Show only 4 related items (one row)
 
     snap.forEach(doc => {
       const d = doc.data();
-      if (d.slug && d.slug !== currentSlug && !seen.has(d.slug)) {
+      if (
+        d.slug &&
+        d.slug !== currentSlug &&
+        !seen.has(d.slug) &&
+        count < maxItems
+      ) {
         seen.add(d.slug);
+        count++;
+
         const card = document.createElement("div");
         card.className = "related-card";
         card.innerHTML = `
           <h4>${d.title}</h4>
           <a href="#${d.slug}" class="view-more">View More</a>
         `;
+
         container.appendChild(card);
       }
     });
