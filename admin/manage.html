@@ -17,240 +17,254 @@
 
   <link rel="stylesheet" href="../assets/css/style.css">
 
-  <style>
-    :root {
-      --card-bg: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.08);
-      --accent-color: #06B6D4;
-      --accent-hover: #0891b2;
-      --danger: #ef4444;
-      --danger-hover: #dc2626;
-      --text-color: #0f172a;
-      --muted-color: #6b7280;
-      --border-color: #e5e7eb;
-      --bg-color: #f9f9f9;
-    }
+<style>
+  :root {
+    --card-bg: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --accent-color: #06B6D4;
+    --accent-hover: #0891b2;
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --text-color: #0f172a;
+    --muted-color: #6b7280;
+    --border-color: #e5e7eb;
+    --bg-color: #f9f9f9;
+  }
 
-    /* body {
-    margin: 0;
+  body {
+    background: var(--bg-color);
     font-family: 'Roboto', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-  } */
+    margin: 0;
+    padding: 0;
+  }
 
-    .form-box {
-      background: var(--card-bg);
-      padding: 40px 30px;
-      border-radius: 10px;
-      max-width: 800px;
-      margin: 40px auto;
-      box-shadow: 0 4px 12px var(--shadow);
+  .form-box {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+
+  .form-box h2 {
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    text-align: center;
+  }
+
+  .form-box input,
+  .form-box select,
+  .form-box textarea {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  .form-box textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-box button {
+    padding: 12px 20px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 10px;
+  }
+
+  .form-box button:hover {
+    background: var(--accent-hover);
+  }
+
+  .project-section {
+    width: 100%;
+    margin: 40px 0;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0 20px;
+  }
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* Image on top */
+  padding: 0;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content h3 {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.card-content p {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: var(--muted-color);
+  line-height: 1.5;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+  .card-content button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    margin:4px;
+
+  }
+
+  .card-content button.edit {
+    background: var(--accent-color);
+  }
+
+  .card-content button.edit:hover {
+    background: var(--accent-hover);
+  }
+
+  .card-content button.delete {
+    background: var(--danger);
+  }
+
+  .card-content button.delete:hover {
+    background: var(--danger-hover);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
     }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 
-    .form-box h2 {
-      margin-bottom: 24px;
-      font-size: 1.5rem;
-      color: var(--accent-color);
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .card {
+      flex-direction: column;
+      align-items: center;
       text-align: center;
     }
 
-    .form-box input,
-    .form-box select,
-    .form-box textarea {
-      width: 100%;
-      margin-bottom: 16px;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      font-size: 15px;
-      box-sizing: border-box;
-    }
-
-    .form-box textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .form-box button {
-      padding: 12px 20px;
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      max-width: 200px;
-      margin-top: 10px;
-    }
-
-    .form-box button:hover {
-      background: var(--accent-hover);
-    }
-
-    #domainFilter {
-      max-width: 800px;
-      margin: 0 auto 30px auto;
-      display: block;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      font-size: 1rem;
-      background: white;
-    }
-
-    .project-section {
-      width: 100%;
-      margin: 40px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-
-      gap: 24px;
-      padding: 0 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px var(--shadow);
-      overflow: hidden;
-      display: flex;
-      flex-direction: row;
-      gap: 16px;
-      padding: 16px;
-      align-items: flex-start;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid var(--border-color);
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    }
-
     .card img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-      flex-shrink: 0;
-      border: 1px solid #e0e0e0;
+      width: 100%;
+      height: auto;
     }
 
     .card-content {
-      flex: 1;
-      display: flex;
+      align-items: center;
+    }
+
+    .card-actions {
       flex-direction: column;
-    }
-
-    .card-content h3 {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--accent-color);
-    }
-
-    .card-content p {
-      margin: 4px 0;
-      font-size: 0.95rem;
-      color: var(--muted-color);
+      width: 100%;
     }
 
     .card-content button {
-      margin-top: 10px;
-      margin-right: 10px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
+      width: 100%;
+    }
+
+    .form-box {
+      padding: 30px 20px;
+    }
+
+    .card-grid {
+      padding: 0 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-box h2 {
+      font-size: 1.3rem;
+    }
+
+    .card-content p {
       font-size: 0.9rem;
-      font-weight: 500;
-      transition: background 0.2s ease;
     }
+  }
 
-    .card-content button.edit {
-      background: var(--accent-color);
-    }
-
-    .card-content button.edit:hover {
-      background: var(--accent-hover);
-    }
-
-    .card-content button.delete {
-      background: var(--danger);
-    }
-
-    .card-content button.delete:hover {
-      background: var(--danger-hover);
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .card img {
-        width: 100%;
-        height: auto;
-      }
-
-      .card-content button {
-        width: 100%;
-        margin: 6px 0;
-      }
-
-      .form-box {
-        padding: 30px 20px;
-      }
-
-      .card-grid {
-        padding: 0 10px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-box h2 {
-        font-size: 1.3rem;
-      }
-
-      .card-content p {
-        font-size: 0.9rem;
-      }
-    }
-
-  /* Override Choices.js styling to look like basic HTML <select> */
+  /* Choices.js Styling Overrides */
   .choices__inner {
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-height: 20px;
-    padding: 6px 10px;
-    font-family: inherit;
-    font-size: 14px;
-    width:97%;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    width: 100% !important;
+    box-sizing: border-box;
   }
 
   .choices__list--dropdown {
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 14px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 15px;
     z-index: 999;
   }
 
   .choices__list--dropdown .choices__item {
-    padding: 8px 12px;
+    padding: 10px 14px;
   }
 
   .choices__item--selectable.is-highlighted {
@@ -258,25 +272,30 @@
   }
 
   .choices__input {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .choices[data-type*="select-one"]::after {
     border-color: #666 transparent transparent transparent;
-    right: 10px;
+    right: 12px;
   }
 
   .choices__placeholder {
     opacity: 0.6;
   }
 
-  /* Optional: remove blue border on focus */
   .choices__inner:focus {
     outline: none;
     box-shadow: none;
   }
-</style>
 
+  /* Domain Filter Match Styling */
+  #domainFilter {
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    display: block;
+  }
+</style>
 
 </head>
 
@@ -329,141 +348,142 @@
   </div>
 
   <!-- ADDED: Domain Filter Dropdown for projects display -->
-  <div style="text-align:center; margin: 30px 0;">
-    <select id="domainFilter" class="searchable">
-      <option value="">-- Select Domain to View Projects --</option>
-    </select>
+<div class="form-box" style="margin-top: 20px;">
+  <h2>Filter Projects by Domain</h2>
+  <select id="domainFilter" class="searchable">
+    <option value="">-- Select Domain to View Projects --</option>
+    <!-- Options will be populated dynamically -->
+  </select>
+</div>
 
-  </div>
 
   <div id="projectsGrid"></div>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
-      authDomain: "ic-project-6989d.firebaseapp.com",
-      projectId: "ic-project-6989d",
-      storageBucket: "ic-project-6989d.appspot.com",
-      messagingSenderId: "90473196739",
-      appId: "1:90473196739:web:db4e82108c0355a2fb0676"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
+    authDomain: "ic-project-6989d.firebaseapp.com",
+    projectId: "ic-project-6989d",
+    storageBucket: "ic-project-6989d.appspot.com",
+    messagingSenderId: "90473196739",
+    appId: "1:90473196739:web:db4e82108c0355a2fb0676"
+  };
 
-    const grid = document.getElementById('projectsGrid');
-    let editId = null;
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-    // Create Choices.js instances
-    const domainSelectChoice = new Choices('#domainSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
-    const titleSelectChoice = new Choices('#titleSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
-    const domainFilterChoice = new Choices('#domainFilter', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+  const grid = document.getElementById('projectsGrid');
+  let editId = null;
 
-    // Load domains into dropdowns using Choices API
-    async function loadDomains() {
-      const snapshot = await db.collection("domains").get();
-      const options = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return { value: data.slug, label: data.name };
-      });
-      domainSelectChoice.setChoices([{ value: '', label: 'Select Domain', selected: true, disabled: true }, ...options], 'value', 'label', true);
-      domainFilterChoice.setChoices([{ value: '', label: '-- Select Domain to View Projects --', selected: true, disabled: true }, ...options], 'value', 'label', true);
-    }
+  // Create Choices.js instances
+  const domainSelectChoice = new Choices('#domainSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+  const titleSelectChoice = new Choices('#titleSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+  const domainFilterChoice = new Choices('#domainFilter', { searchEnabled: true, itemSelectText: '', shouldSort: false });
 
-    // Load project titles when a domain is selected
-    async function filterTitlesByDomain(domain) {
-      titleSelectChoice.clearChoices();
-      if (!domain) return;
-      const snapshot = await db.collection("projects").where("domain", "==", domain).get();
-      const projectOptions = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return { value: data.slug, label: data.title || data.name };
-      });
-      titleSelectChoice.setChoices([{ value: '', label: 'Select Project Title', selected: true, disabled: true }, ...projectOptions], 'value', 'label', true);
-    }
-
-    // When domain changes, update title dropdown
-    document.getElementById('domainSelect').addEventListener('change', (e) => {
-      filterTitlesByDomain(e.target.value);
+  async function loadDomains() {
+    const snapshot = await db.collection("domains").get();
+    const options = snapshot.docs.map(doc => {
+      const data = doc.data();
+      return { value: data.slug, label: data.name };
     });
+    domainSelectChoice.setChoices([{ value: '', label: 'Select Domain', selected: true, disabled: true }, ...options], 'value', 'label', true);
+    domainFilterChoice.setChoices([{ value: '', label: '-- Select Domain to View Projects --', selected: true, disabled: true }, ...options], 'value', 'label', true);
+  }
 
-    async function addOrUpdate() {
-      const domain = domainSelectChoice.getValue(true);
-      const slug = titleSelectChoice.getValue(true);
-      const title = titleSelectChoice.getValue().label;
-      const price = document.getElementById('price').value;
-      const discount = document.getElementById('discount').value;
-      const stock = document.getElementById('stock').value;
-      const description = document.getElementById('description').value;
-      const info = document.getElementById('info').value.split(',').map(i => i.trim());
-      const language = document.getElementById('language').value;
-      const hardware = document.getElementById('hardware').value;
-      const cloud = document.getElementById('cloud').value;
-      const delivery = document.getElementById('delivery').value;
-      const imageUrl = document.getElementById('imageUrl').value;
+  async function filterTitlesByDomain(domain) {
+    titleSelectChoice.clearChoices();
+    if (!domain) return;
+    const snapshot = await db.collection("projects").where("domain", "==", domain).get();
+    const projectOptions = snapshot.docs.map(doc => {
+      const data = doc.data();
+      return { value: data.slug, label: data.title || data.name };
+    });
+    titleSelectChoice.setChoices([{ value: '', label: 'Select Project Title', selected: true, disabled: true }, ...projectOptions], 'value', 'label', true);
+  }
 
-      const data = { domain, slug, title, price, discount, stock, description, info, language, hardware, cloud, delivery, imageUrl };
+  document.getElementById('domainSelect').addEventListener('change', (e) => {
+    filterTitlesByDomain(e.target.value);
+  });
 
-      if (editId) {
-        await db.collection("projectDetails").doc(editId).update(data);
-        editId = null;
-      } else {
-        await db.collection("projectDetails").add(data);
-      }
+  async function addOrUpdate() {
+    const domain = domainSelectChoice.getValue(true);
+    const slug = titleSelectChoice.getValue(true);
+    const title = titleSelectChoice.getValue().label;
+    const price = document.getElementById('price').value;
+    const discount = document.getElementById('discount').value;
+    const stock = document.getElementById('stock').value;
+    const description = document.getElementById('description').value;
+    const info = document.getElementById('info').value.split(',').map(i => i.trim());
+    const language = document.getElementById('language').value;
+    const hardware = document.getElementById('hardware').value;
+    const cloud = document.getElementById('cloud').value;
+    const delivery = document.getElementById('delivery').value;
+    const imageUrl = document.getElementById('imageUrl').value;
 
-      clearForm();
-      if (domainFilterChoice.getValue(true)) {
-        filterProjectsByDomain(domainFilterChoice.getValue(true));
-      } else {
-        grid.innerHTML = "";
-      }
+    const data = { domain, slug, title, price, discount, stock, description, info, language, hardware, cloud, delivery, imageUrl };
+
+    if (editId) {
+      await db.collection("projectDetails").doc(editId).update(data);
+      editId = null;
+    } else {
+      await db.collection("projectDetails").add(data);
     }
 
-    function clearForm() {
-      domainSelectChoice.clearStore();
-      titleSelectChoice.clearStore();
-      loadDomains(); // reload domain options
-      document.getElementById('price').value = '';
-      document.getElementById('discount').value = '';
-      document.getElementById('stock').value = '';
-      document.getElementById('description').value = '';
-      document.getElementById('info').value = '';
-      document.getElementById('language').value = '';
-      document.getElementById('hardware').value = '';
-      document.getElementById('cloud').value = '';
-      document.getElementById('delivery').value = '';
-      document.getElementById('imageUrl').value = '';
-    }
-
-    async function filterProjectsByDomain(domain) {
+    clearForm();
+    if (domainFilterChoice.getValue(true)) {
+      filterProjectsByDomain(domainFilterChoice.getValue(true));
+    } else {
       grid.innerHTML = "";
+    }
+  }
 
-      if (!domain) {
-        grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
+  function clearForm() {
+    domainSelectChoice.clearStore();
+    titleSelectChoice.clearStore();
+    loadDomains();
+    document.getElementById('price').value = '';
+    document.getElementById('discount').value = '';
+    document.getElementById('stock').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('info').value = '';
+    document.getElementById('language').value = '';
+    document.getElementById('hardware').value = '';
+    document.getElementById('cloud').value = '';
+    document.getElementById('delivery').value = '';
+    document.getElementById('imageUrl').value = '';
+  }
+
+  async function filterProjectsByDomain(domain) {
+    grid.innerHTML = "";
+
+    if (!domain) {
+      grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
+      return;
+    }
+
+    try {
+      const snap = await db.collection("projectDetails").where("domain", "==", domain).get();
+      if (snap.empty) {
+        grid.innerHTML = `<p style="text-align:center; color:gray;">No projects found in ${domain}.</p>`;
         return;
       }
 
-      try {
-        const snap = await db.collection("projectDetails").where("domain", "==", domain).get();
-        if (snap.empty) {
-          grid.innerHTML = `<p style="text-align:center; color:gray;">No projects found in ${domain}.</p>`;
-          return;
-        }
+      const section = document.createElement('div');
+      section.className = "project-section";
+      section.innerHTML = `<h2 style="margin: 20px 20px; color: #06B6D4;">${domain.toUpperCase()}</h2>`;
 
-        const section = document.createElement('div');
-        section.className = "project-section";
-        section.innerHTML = `<h2 style="margin: 20px 20px; color: #06B6D4;">${domain.toUpperCase()}</h2>`;
+      const domainGrid = document.createElement('div');
+      domainGrid.className = "card-grid";
 
-        const domainGrid = document.createElement('div');
-        domainGrid.className = "card-grid";
-
-        snap.forEach(doc => {
-          const data = doc.data();
-          const card = document.createElement('div');
-          card.className = "card";
-          card.innerHTML = `
+      snap.forEach(doc => {
+        const data = doc.data();
+        const encodedData = encodeURIComponent(JSON.stringify(data));
+        const card = document.createElement('div');
+        card.className = "card";
+        card.innerHTML = `
           <img src="${data.imageUrl || '../assets/img/project-placeholder.jpg'}" alt="${data.title}">
           <div class="card-content">
             <h3>${data.title || 'Untitled'}</h3>
@@ -472,54 +492,80 @@
             <p><strong>Delivery:</strong> ${data.delivery || '--'}</p>
             <p><strong>Stock:</strong> ${data.stock || '--'}</p>
             <p><strong>Category:</strong> ${data.domain || '--'}</p>
-            <button class="edit" onclick='editProject("${doc.id}", ${JSON.stringify(data).replace(/"/g, '&quot;')})'>Edit</button>
-            <button class="delete" onclick='deleteProject("${doc.id}")'>Delete</button>
-          </div>`;
-          domainGrid.appendChild(card);
-        });
-
-        section.appendChild(domainGrid);
-        grid.appendChild(section);
-      } catch (err) {
-        console.error("Error filtering projects:", err);
-        grid.innerHTML = "<p style='color: red; text-align: center;'>Failed to load projects.</p>";
-      }
-    }
-
-    function editProject(id, data) {
-      editId = id;
-      domainSelectChoice.setChoiceByValue(data.domain);
-      filterTitlesByDomain(data.domain).then(() => {
-        titleSelectChoice.setChoiceByValue(data.slug);
+            <button class="edit" data-id="${doc.id}" data-project='${encodedData}'>Edit</button>
+            <button class="delete" data-id="${doc.id}">Delete</button>
+          </div>
+        `;
+        domainGrid.appendChild(card);
       });
-      document.getElementById('price').value = data.price;
-      document.getElementById('discount').value = data.discount;
-      document.getElementById('stock').value = data.stock;
-      document.getElementById('description').value = data.description;
-      document.getElementById('info').value = (data.info || []).join(", ");
-      document.getElementById('language').value = data.language || '';
-      document.getElementById('hardware').value = data.hardware || '';
-      document.getElementById('cloud').value = data.cloud || '';
-      document.getElementById('delivery').value = data.delivery || '';
-      document.getElementById('imageUrl').value = data.imageUrl || '';
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
 
-    async function deleteProject(id) {
-      if (confirm("Are you sure you want to delete this project?")) {
-        await db.collection("projectDetails").doc(id).delete();
-        if (domainFilterChoice.getValue(true)) {
-          filterProjectsByDomain(domainFilterChoice.getValue(true));
-        } else {
-          grid.innerHTML = "";
-        }
+      section.appendChild(domainGrid);
+      grid.appendChild(section);
+
+      // Add listeners for Edit/Delete
+      domainGrid.querySelectorAll('.edit').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.id;
+          const data = JSON.parse(decodeURIComponent(button.dataset.project));
+          editProject(id, data);
+        });
+      });
+
+      domainGrid.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.id;
+          deleteProject(id);
+        });
+      });
+
+    } catch (err) {
+      console.error("Error filtering projects:", err);
+      grid.innerHTML = "<p style='color: red; text-align: center;'>Failed to load projects.</p>";
+    }
+  }
+
+  function editProject(id, data) {
+    editId = id;
+    domainSelectChoice.setChoiceByValue(data.domain);
+    filterTitlesByDomain(data.domain).then(() => {
+      titleSelectChoice.setChoiceByValue(data.slug);
+    });
+    document.getElementById('price').value = data.price || '';
+    document.getElementById('discount').value = data.discount || '';
+    document.getElementById('stock').value = data.stock || '';
+    document.getElementById('description').value = data.description || '';
+    document.getElementById('info').value = (data.info || []).join(", ");
+    document.getElementById('language').value = data.language || '';
+    document.getElementById('hardware').value = data.hardware || '';
+    document.getElementById('cloud').value = data.cloud || '';
+    document.getElementById('delivery').value = data.delivery || '';
+    document.getElementById('imageUrl').value = data.imageUrl || '';
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function deleteProject(id) {
+    if (confirm("Are you sure you want to delete this project?")) {
+      await db.collection("projectDetails").doc(id).delete();
+      const currentDomain = domainFilterChoice.getValue(true);
+      if (currentDomain) {
+        filterProjectsByDomain(currentDomain);
+      } else {
+        grid.innerHTML = "";
       }
     }
+  }
 
-    // Initial calls
-    loadDomains();
-    grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
-  </script>
+  // Load projects on filter change
+  document.getElementById('domainFilter').addEventListener('change', function () {
+    const selectedDomain = domainFilterChoice.getValue(true);
+    filterProjectsByDomain(selectedDomain);
+  });
+
+  // Init
+  loadDomains();
+  grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
+</script>
+
 
   <!-- Your other scripts -->
   <script type="module" src="../assets/js/script.js"></script>

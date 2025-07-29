@@ -36,7 +36,8 @@ onAuthStateChanged(auth, async (user) => {
 
   cartSnapshot.forEach(docSnap => {
     const d = docSnap.data();
-    total += d.price;
+    const price = Number(d.price); // Ensure it's a number
+    total += price;
 
     const card = document.createElement("div");
     card.className = "cart-card";
@@ -44,14 +45,14 @@ onAuthStateChanged(auth, async (user) => {
       <img src="${d.imageUrl}" class="cart-img">
       <div class="cart-info">
         <h4>${d.title}</h4>
-        <p>₹${d.price}</p>
+        <p>₹${price}</p>
         <button class="remove-btn" data-id="${docSnap.id}">Remove</button>
       </div>
     `;
     container.appendChild(card);
   });
 
-  totalElem.textContent = total;
+  totalElem.textContent = `₹${total}`;
 
   // Remove item
   document.querySelectorAll(".remove-btn").forEach(btn => {
