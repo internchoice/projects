@@ -1,227 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manage Projects | Intern Choice Projects</title>
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css">
-<style>
-  :root {
-    --card-bg: #ffffff;
-    --shadow: rgba(0, 0, 0, 0.08);
-    --accent-color: #06B6D4;
-    --accent-hover: #0891b2;
-    --danger: #ef4444;
-    --danger-hover: #dc2626;
-    --text-color: #0f172a;
-    --muted-color: #6b7280;
-    --border-color: #e5e7eb;
-    --bg-color: #f9f9f9;
-  }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet">
+  <!-- Choices.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
-  /* body {
+  <!-- Choices.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    :root {
+      --card-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --accent-color: #06B6D4;
+      --accent-hover: #0891b2;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --text-color: #0f172a;
+      --muted-color: #6b7280;
+      --border-color: #e5e7eb;
+      --bg-color: #f9f9f9;
+    }
+
+    /* body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
   } */
 
-  .form-box {
-    background: var(--card-bg);
-    padding: 40px 30px;
-    border-radius: 10px;
-    max-width: 800px;
-    margin: 40px auto;
-    box-shadow: 0 4px 12px var(--shadow);
-  }
-
-  .form-box h2 {
-    margin-bottom: 24px;
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    text-align: center;
-  }
-
-  .form-box input,
-  .form-box select,
-  .form-box textarea {
-    width: 100%;
-    margin-bottom: 16px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    font-size: 15px;
-    box-sizing: border-box;
-  }
-
-  .form-box textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  .form-box button {
-    padding: 12px 20px;
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 100%;
-    max-width: 200px;
-    margin-top: 10px;
-  }
-
-  .form-box button:hover {
-    background: var(--accent-hover);
-  }
-
-  #domainFilter {
-    max-width: 800px;
-    margin: 0 auto 30px auto;
-    display: block;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    font-size: 1rem;
-    background: white;
-  }
-
-  .project-section {
-    width: 100%;
-    margin: 40px;
-  }
-
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-
-    gap: 24px;
-    padding: 0 20px;
-  }
-
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow);
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    padding: 16px;
-    align-items: flex-start;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid var(--border-color);
-  }
-
-  .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  }
-
-  .card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
-    border: 1px solid #e0e0e0;
-  }
-
-  .card-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-content h3 {
-    margin: 0 0 8px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--accent-color);
-  }
-
-  .card-content p {
-    margin: 4px 0;
-    font-size: 0.95rem;
-    color: var(--muted-color);
-  }
-
-  .card-content button {
-    margin-top: 10px;
-    margin-right: 10px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: background 0.2s ease;
-  }
-
-  .card-content button.edit {
-    background: var(--accent-color);
-  }
-
-  .card-content button.edit:hover {
-    background: var(--accent-hover);
-  }
-
-  .card-content button.delete {
-    background: var(--danger);
-  }
-
-  .card-content button.delete:hover {
-    background: var(--danger-hover);
-  }
-
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .card {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      height: auto;
-    }
-
-    .card-content button {
-      width: 100%;
-      margin: 6px 0;
-    }
-
     .form-box {
-      padding: 30px 20px;
-    }
-
-    .card-grid {
-      padding: 0 10px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .card-grid {
-      grid-template-columns: 1fr;
+      background: var(--card-bg);
+      padding: 40px 30px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 40px auto;
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
     .form-box h2 {
-      font-size: 1.3rem;
+      margin-bottom: 24px;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      text-align: center;
+    }
+
+    .form-box input,
+    .form-box select,
+    .form-box textarea {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .form-box textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-box button {
+      padding: 12px 20px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      max-width: 200px;
+      margin-top: 10px;
+    }
+
+    .form-box button:hover {
+      background: var(--accent-hover);
+    }
+
+    #domainFilter {
+      max-width: 800px;
+      margin: 0 auto 30px auto;
+      display: block;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 1rem;
+      background: white;
+    }
+
+    .project-section {
+      width: 100%;
+      margin: 40px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+      gap: 24px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      padding: 16px;
+      align-items: flex-start;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid var(--border-color);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+      border: 1px solid #e0e0e0;
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-content h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent-color);
     }
 
     .card-content p {
-      font-size: 0.9rem;
+      margin: 4px 0;
+      font-size: 0.95rem;
+      color: var(--muted-color);
     }
+
+    .card-content button {
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+
+    .card-content button.edit {
+      background: var(--accent-color);
+    }
+
+    .card-content button.edit:hover {
+      background: var(--accent-hover);
+    }
+
+    .card-content button.delete {
+      background: var(--danger);
+    }
+
+    .card-content button.delete:hover {
+      background: var(--danger-hover);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+
+      .card-content button {
+        width: 100%;
+        margin: 6px 0;
+      }
+
+      .form-box {
+        padding: 30px 20px;
+      }
+
+      .card-grid {
+        padding: 0 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-box h2 {
+        font-size: 1.3rem;
+      }
+
+      .card-content p {
+        font-size: 0.9rem;
+      }
+    }
+
+  /* Override Choices.js styling to look like basic HTML <select> */
+  .choices__inner {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 20px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 14px;
+    width:97%;
+  }
+
+  .choices__list--dropdown {
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 14px;
+    z-index: 999;
+  }
+
+  .choices__list--dropdown .choices__item {
+    padding: 8px 12px;
+  }
+
+  .choices__item--selectable.is-highlighted {
+    background-color: #f0f0f0;
+  }
+
+  .choices__input {
+    font-size: 14px;
+  }
+
+  .choices[data-type*="select-one"]::after {
+    border-color: #666 transparent transparent transparent;
+    right: 10px;
+  }
+
+  .choices__placeholder {
+    opacity: 0.6;
+  }
+
+  /* Optional: remove blue border on focus */
+  .choices__inner:focus {
+    outline: none;
+    box-shadow: none;
   }
 </style>
 
+
 </head>
+
+
 <body>
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
 
@@ -244,8 +303,15 @@
   <div class="form-box">
     <h2>Add or Edit Project</h2>
 
-    <select id="domainSelect"><option value="">Select Domain</option></select>
-    <select id="titleSelect"><option value="">Select Project Title</option></select>
+    <!-- <select id="domainSelect"><option value="">Select Domain</option></select> -->
+    <!-- <select id="titleSelect"><option value="">Select Project Title</option></select> -->
+    <select id="domainSelect" class="searchable">
+      <option value="">Select Domain</option>
+    </select>
+
+    <select id="titleSelect" class="searchable">
+      <option value="">Select Project Title</option>
+    </select>
 
     <input type="text" id="price" placeholder="Price (e.g., ₹1499)">
     <input type="text" id="discount" placeholder="Discount (e.g., 20%)">
@@ -264,9 +330,10 @@
 
   <!-- ADDED: Domain Filter Dropdown for projects display -->
   <div style="text-align:center; margin: 30px 0;">
-    <select id="domainFilter" onchange="filterProjectsByDomain(this.value)">
+    <select id="domainFilter" class="searchable">
       <option value="">-- Select Domain to View Projects --</option>
     </select>
+
   </div>
 
   <div id="projectsGrid"></div>
@@ -286,41 +353,46 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    const domainSelect = document.getElementById('domainSelect');
-    const titleSelect = document.getElementById('titleSelect');
     const grid = document.getElementById('projectsGrid');
-    const domainFilter = document.getElementById('domainFilter');
     let editId = null;
 
-    // Load domains into both domainSelect and domainFilter dropdowns
+    // Create Choices.js instances
+    const domainSelectChoice = new Choices('#domainSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+    const titleSelectChoice = new Choices('#titleSelect', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+    const domainFilterChoice = new Choices('#domainFilter', { searchEnabled: true, itemSelectText: '', shouldSort: false });
+
+    // Load domains into dropdowns using Choices API
     async function loadDomains() {
-      const domains = await db.collection("domains").get();
-      domains.forEach(doc => {
+      const snapshot = await db.collection("domains").get();
+      const options = snapshot.docs.map(doc => {
         const data = doc.data();
-        const option = `<option value="${data.slug}">${data.name}</option>`;
-        domainSelect.innerHTML += option;
-        domainFilter.innerHTML += option;
+        return { value: data.slug, label: data.name };
       });
+      domainSelectChoice.setChoices([{ value: '', label: 'Select Domain', selected: true, disabled: true }, ...options], 'value', 'label', true);
+      domainFilterChoice.setChoices([{ value: '', label: '-- Select Domain to View Projects --', selected: true, disabled: true }, ...options], 'value', 'label', true);
     }
 
+    // Load project titles when a domain is selected
     async function filterTitlesByDomain(domain) {
-      titleSelect.innerHTML = `<option value="">Select Project Title</option>`;
+      titleSelectChoice.clearChoices();
       if (!domain) return;
-      const projects = await db.collection("projects").where("domain", "==", domain).get();
-      projects.forEach(doc => {
+      const snapshot = await db.collection("projects").where("domain", "==", domain).get();
+      const projectOptions = snapshot.docs.map(doc => {
         const data = doc.data();
-        titleSelect.innerHTML += `<option value="${data.slug}">${data.title || data.name}</option>`;
+        return { value: data.slug, label: data.title || data.name };
       });
+      titleSelectChoice.setChoices([{ value: '', label: 'Select Project Title', selected: true, disabled: true }, ...projectOptions], 'value', 'label', true);
     }
 
-    domainSelect.addEventListener('change', () => {
-      filterTitlesByDomain(domainSelect.value);
+    // When domain changes, update title dropdown
+    document.getElementById('domainSelect').addEventListener('change', (e) => {
+      filterTitlesByDomain(e.target.value);
     });
 
     async function addOrUpdate() {
-      const domain = domainSelect.value;
-      const slug = titleSelect.value;
-      const title = titleSelect.options[titleSelect.selectedIndex]?.text || "";
+      const domain = domainSelectChoice.getValue(true);
+      const slug = titleSelectChoice.getValue(true);
+      const title = titleSelectChoice.getValue().label;
       const price = document.getElementById('price').value;
       const discount = document.getElementById('discount').value;
       const stock = document.getElementById('stock').value;
@@ -342,17 +414,17 @@
       }
 
       clearForm();
-      // Refresh the projects list according to selected filter or default
-      if(domainFilter.value) {
-        filterProjectsByDomain(domainFilter.value);
+      if (domainFilterChoice.getValue(true)) {
+        filterProjectsByDomain(domainFilterChoice.getValue(true));
       } else {
-        grid.innerHTML = ""; // clear if no filter selected
+        grid.innerHTML = "";
       }
     }
 
     function clearForm() {
-      domainSelect.value = '';
-      titleSelect.innerHTML = `<option value="">Select Project Title</option>`;
+      domainSelectChoice.clearStore();
+      titleSelectChoice.clearStore();
+      loadDomains(); // reload domain options
       document.getElementById('price').value = '';
       document.getElementById('discount').value = '';
       document.getElementById('stock').value = '';
@@ -365,29 +437,24 @@
       document.getElementById('imageUrl').value = '';
     }
 
-    // FILTER projects by selected domain
-    async function filterProjectsByDomain(selectedDomain) {
-      grid.innerHTML = ""; // Clear current projects display
+    async function filterProjectsByDomain(domain) {
+      grid.innerHTML = "";
 
-      if (!selectedDomain) {
-        // No domain selected, clear grid
+      if (!domain) {
         grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
         return;
       }
 
       try {
-        const snap = await db.collection("projectDetails")
-          .where("domain", "==", selectedDomain)
-          .get();
-
+        const snap = await db.collection("projectDetails").where("domain", "==", domain).get();
         if (snap.empty) {
-          grid.innerHTML = `<p style="text-align:center; color:gray;">No projects found in ${selectedDomain}.</p>`;
+          grid.innerHTML = `<p style="text-align:center; color:gray;">No projects found in ${domain}.</p>`;
           return;
         }
 
         const section = document.createElement('div');
         section.className = "project-section";
-        section.innerHTML = `<h2 style="margin: 20px 20px; color: #06B6D4;">${selectedDomain.toUpperCase()}</h2>`;
+        section.innerHTML = `<h2 style="margin: 20px 20px; color: #06B6D4;">${domain.toUpperCase()}</h2>`;
 
         const domainGrid = document.createElement('div');
         domainGrid.className = "card-grid";
@@ -397,18 +464,17 @@
           const card = document.createElement('div');
           card.className = "card";
           card.innerHTML = `
-            <img src="${data.imageUrl || '../assets/img/project-placeholder.jpg'}" alt="${data.title}">
-            <div class="card-content">
-              <h3>${data.title || 'Untitled'}</h3>
-              <p><strong>Price:</strong> ₹${data.price || '--'}</p>
-              <p><strong>Discount:</strong> ${data.discount || '--'}</p>
-              <p><strong>Delivery:</strong> ${data.delivery || '--'}</p>
-              <p><strong>Stock:</strong> ${data.stock || '--'}</p>
-              <p><strong>Category:</strong> ${data.domain || '--'}</p>
-              <button class="edit" onclick="editProject('${doc.id}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Edit</button>
-              <button class="delete" onclick="deleteProject('${doc.id}')">Delete</button>
-            </div>
-          `;
+          <img src="${data.imageUrl || '../assets/img/project-placeholder.jpg'}" alt="${data.title}">
+          <div class="card-content">
+            <h3>${data.title || 'Untitled'}</h3>
+            <p><strong>Price:</strong> ₹${data.price || '--'}</p>
+            <p><strong>Discount:</strong> ${data.discount || '--'}</p>
+            <p><strong>Delivery:</strong> ${data.delivery || '--'}</p>
+            <p><strong>Stock:</strong> ${data.stock || '--'}</p>
+            <p><strong>Category:</strong> ${data.domain || '--'}</p>
+            <button class="edit" onclick='editProject("${doc.id}", ${JSON.stringify(data).replace(/"/g, '&quot;')})'>Edit</button>
+            <button class="delete" onclick='deleteProject("${doc.id}")'>Delete</button>
+          </div>`;
           domainGrid.appendChild(card);
         });
 
@@ -422,9 +488,9 @@
 
     function editProject(id, data) {
       editId = id;
-      domainSelect.value = data.domain;
+      domainSelectChoice.setChoiceByValue(data.domain);
       filterTitlesByDomain(data.domain).then(() => {
-        titleSelect.value = data.slug;
+        titleSelectChoice.setChoiceByValue(data.slug);
       });
       document.getElementById('price').value = data.price;
       document.getElementById('discount').value = data.discount;
@@ -442,17 +508,23 @@
     async function deleteProject(id) {
       if (confirm("Are you sure you want to delete this project?")) {
         await db.collection("projectDetails").doc(id).delete();
-        if(domainFilter.value) {
-          filterProjectsByDomain(domainFilter.value);
+        if (domainFilterChoice.getValue(true)) {
+          filterProjectsByDomain(domainFilterChoice.getValue(true));
         } else {
           grid.innerHTML = "";
         }
       }
     }
 
+    // Initial calls
     loadDomains();
     grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
   </script>
+
+  <!-- Your other scripts -->
   <script type="module" src="../assets/js/script.js"></script>
+
+
 </body>
+
 </html>
