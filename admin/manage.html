@@ -32,7 +32,7 @@
     }
 
     body {
-      background: var(--bg-color);
+      /* background: var(--bg-color); */
       font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
@@ -462,10 +462,10 @@
     async function filterProjectsByDomain(domain) {
       grid.innerHTML = "";
 
-      if (!domain) {
-        grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
-        return;
-      }
+      // if (!domain) {
+      //   grid.innerHTML = "<p style='text-align:center; color:gray;'>Please select a domain above to view projects.</p>";
+      //   return;
+      // }
 
       try {
         const snap = await db.collection("projectDetails").where("domain", "==", domain).get();
