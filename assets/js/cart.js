@@ -99,7 +99,7 @@ document.getElementById("place-order-btn").addEventListener("click", async () =>
     });
 
     // 3. Remove from cart
-    await deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id));
+    await deleteDoc(doc(db, "users", user.uid, "orders", docSnap.id));
   }
 
   alert("Order placed successfully and stock updated!");
