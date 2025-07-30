@@ -38,7 +38,7 @@ async function loadProjectDetails(slug) {
 
     // Fill UI
     document.getElementById("project-title").textContent = data.title || "Untitled";
-    document.getElementById("project-price").textContent = data.price ? `₹${data.price}` : "--";
+    document.getElementById("project-price").textContent = data.price ? `₹${data.price}` : "Call for Price";
     document.getElementById("project-discount").textContent = data.discount || "--";
     document.getElementById("project-stock").textContent = data.stock || "--";
     document.getElementById("project-category").textContent = data.domain || "--";
@@ -56,10 +56,10 @@ async function loadProjectDetails(slug) {
       document.getElementById("project-image").src = data.imageUrl;
     }
 
-    // Set up cart/wishlist buttons
+    // Setup buttons
     setupButtons(data.slug);
 
-    // Load related
+    // Load related projects
     loadRelatedProjects(data.domain, data.slug);
   } catch (err) {
     console.error("Error loading project:", err);
@@ -80,7 +80,7 @@ async function loadRelatedProjects(domain, currentSlug) {
 
     const seen = new Set();
     let count = 0;
-    const maxItems = 4; // Show only 4 related items (one row)
+    const maxItems = 4;
 
     snap.forEach(doc => {
       const d = doc.data();
@@ -113,60 +113,90 @@ async function loadRelatedProjects(domain, currentSlug) {
   }
 }
 
-// Setup buttons (for cart & wishlist)
+// Setup buttons (cart/wishlist + WhatsApp)
 function setupButtons(slug) {
   const cartBtn = document.querySelector('.add-to-cart');
   const wishlistBtn = document.querySelector('.add-to-wishlist');
 
   cartBtn.disabled = false;
   wishlistBtn.disabled = false;
-  cartBtn.textContent = "Add to Cart";
-  wishlistBtn.textContent = "Add to Wishlist";
 
-  cartBtn.onclick = async () => {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please login to add this project to your cart.");
+  const title = document.getElementById("project-title").textContent;
+  const priceText = document.getElementById("project-price").textContent.replace("₹", "").trim();
+
+  if (priceText.toLowerCase() === "call for price") {
+    cartBtn.textContent = "Contact on WhatsApp";
+    cartBtn.onclick = () => {
+      const message = encodeURIComponent(`Hello, I'm interested in the "${title}" project. Please provide pricing details.`);
+      const whatsappUrl = `https://wa.me/919156646301?text=${message}`;
+      window.open(whatsappUrl, "_blank");
+    };
+    return;
+  }
+
+  // check login
+  const user = auth.currentUser;
+  if (!user) {
+    cartBtn.textContent = "Login to Add";
+    cartBtn.onclick = () => {
       window.location.href = "login.html";
-      return;
+    };
+    return;
+  }
+
+  const cartRef = db.collection("users").doc(user.uid).collection("cart").doc(slug);
+
+  cartRef.get().then((doc) => {
+    if (doc.exists) {
+      cartBtn.textContent = "Click to Proceed";
+      cartBtn.onclick = () => window.location.href = "cart.html";
+    } else {
+      cartBtn.textContent = "Add to Cart";
+      cartBtn.onclick = async () => {
+        const discount = document.getElementById("project-discount").textContent;
+        const imageUrl = document.getElementById("project-image").src;
+
+        try {
+          await cartRef.set({
+            title,
+            price: parseFloat(priceText),
+            discount,
+            imageUrl,
+            slug,
+            quantity: 1,
+            addedAt: new Date()
+          });
+
+          alert("Added to cart!");
+          cartBtn.textContent = "Click to Proceed";
+          cartBtn.onclick = () => window.location.href = "cart.html";
+        } catch (err) {
+          console.error("Add to cart failed:", err);
+          alert("Failed to add to cart.");
+        }
+      };
     }
+  });
 
-    const title = document.getElementById("project-title").textContent;
-    const price = parseFloat(document.getElementById("project-price").textContent.replace("₹", "")) || 0;
-    const discount = document.getElementById("project-discount").textContent;
-    const imageUrl = document.getElementById("project-image").src;
-
-    try {
-      await db.collection("users").doc(user.uid).collection("cart").doc(slug).set({
-        title, price, discount, imageUrl, slug,
-        quantity: 1,
-        addedAt: new Date()
-      });
-      alert("Added to cart!");
-      cartBtn.textContent = "Added!";
-      cartBtn.disabled = true;
-    } catch (err) {
-      console.error("Add to cart failed:", err);
-      alert("Failed to add to cart.");
-    }
-  };
-
+  // Wishlist button
+  wishlistBtn.textContent = "Add to Wishlist";
   wishlistBtn.onclick = async () => {
-    const user = auth.currentUser;
     if (!user) {
       alert("Please login to add this project to your wishlist.");
       window.location.href = "login.html";
       return;
     }
 
-    const title = document.getElementById("project-title").textContent;
-    const price = parseFloat(document.getElementById("project-price").textContent.replace("₹", "")) || 0;
     const discount = document.getElementById("project-discount").textContent;
     const imageUrl = document.getElementById("project-image").src;
 
     try {
       await db.collection("users").doc(user.uid).collection("wishlist").doc(slug).set({
-        title, price, discount, imageUrl, slug,
+        title,
+        price: isNaN(parseFloat(priceText)) ? 0 : parseFloat(priceText),
+        discount,
+        imageUrl,
+        slug,
         addedAt: new Date()
       });
       alert("Added to wishlist!");
@@ -178,6 +208,8 @@ function setupButtons(slug) {
     }
   };
 }
+
+
 
 // Handle tab switching
 document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -194,13 +226,13 @@ document.getElementById("nav-toggle").addEventListener("click", () => {
   document.getElementById("nav-links").classList.toggle("active");
 });
 
-// Load project on initial load
+// Load on first load
 document.addEventListener("DOMContentLoaded", () => {
   const slug = getSlugFromHash();
   if (slug) loadProjectDetails(slug);
 });
 
-// Listen to hash changes for dynamic navigation
+// Hash change
 window.addEventListener("hashchange", () => {
   const newSlug = getSlugFromHash();
   if (newSlug) loadProjectDetails(newSlug);

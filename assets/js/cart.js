@@ -1,7 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  deleteDoc,
+  setDoc,
+  updateDoc,
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
   authDomain: "ic-project-6989d.firebaseapp.com",
@@ -11,6 +21,7 @@ const firebaseConfig = {
   appId: "1:90473196739:web:db4e82108c0355a2fb0676"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -36,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
 
   cartSnapshot.forEach(docSnap => {
     const d = docSnap.data();
-    const price = Number(d.price); // Ensure it's a number
+    const price = Number(d.price);
     total += price;
 
     const card = document.createElement("div");
@@ -54,7 +65,7 @@ onAuthStateChanged(auth, async (user) => {
 
   totalElem.textContent = `₹${total}`;
 
-  // Remove item
+  // Remove item from cart
   document.querySelectorAll(".remove-btn").forEach(btn => {
     btn.addEventListener("click", async () => {
       const slug = btn.getAttribute("data-id");
@@ -64,19 +75,35 @@ onAuthStateChanged(auth, async (user) => {
   });
 
   // Place Order
-  document.getElementById("place-order-btn").addEventListener("click", async () => {
-    const orderRef = collection(db, "users", user.uid, "orders");
+// Place Order
+document.getElementById("place-order-btn").addEventListener("click", async () => {
+  const orderRef = collection(db, "users", user.uid, "orders");
 
-    for (const docSnap of cartSnapshot.docs) {
-      const orderData = docSnap.data();
-      await setDoc(doc(orderRef, docSnap.id), {
-        ...orderData,
-        orderedAt: new Date()
-      });
-      await deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id));
+  for (const docSnap of cartSnapshot.docs) {
+    const orderData = docSnap.data();
+    const projectId = orderData.projectId || docSnap.id; // fallback to docSnap.id if projectId not available
+
+    // 1. Reduce stock in 'projectdetails' collection
+    const productRef = doc(db, "projectdetails", projectId);
+    const productSnap = await getDoc(productRef);
+    if (productSnap.exists()) {
+      const currentStock = productSnap.data().stock || 0;
+      const newStock = currentStock > 0 ? currentStock - 1 : 0;
+      await updateDoc(productRef, { stock: newStock });
     }
 
-    alert("Order placed successfully!");
-    location.reload();
-  });
+    // 2. Add to order collection
+    await setDoc(doc(orderRef, docSnap.id), {
+      ...orderData,
+      orderedAt: new Date()
+    });
+
+    // 3. Remove from cart
+    await deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id));
+  }
+
+  alert("Order placed successfully and stock updated!");
+  location.reload();
+});
+
 });
