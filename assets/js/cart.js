@@ -1,6 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  deleteDoc,
+  setDoc,
+  updateDoc,
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAyNLRVP-y_QQd5IGH-QaKTCMiruF-dA6E",
@@ -36,7 +45,8 @@ onAuthStateChanged(auth, async (user) => {
 
   cartSnapshot.forEach(docSnap => {
     const d = docSnap.data();
-    total += d.price;
+    const price = Number(d.price);
+    total += price;
 
     const card = document.createElement("div");
     card.className = "cart-card";
@@ -44,14 +54,14 @@ onAuthStateChanged(auth, async (user) => {
       <img src="${d.imageUrl}" class="cart-img">
       <div class="cart-info">
         <h4>${d.title}</h4>
-        <p>₹${d.price}</p>
+        <p>₹${price}</p>
         <button class="remove-btn" data-id="${docSnap.id}">Remove</button>
       </div>
     `;
     container.appendChild(card);
   });
 
-  totalElem.textContent = total;
+  totalElem.textContent = `₹${total}`;
 
   // Remove item
   document.querySelectorAll(".remove-btn").forEach(btn => {
@@ -68,10 +78,26 @@ onAuthStateChanged(auth, async (user) => {
 
     for (const docSnap of cartSnapshot.docs) {
       const orderData = docSnap.data();
+
+      // Reduce stock in the products collection
+      const projectDocRef = doc(db, "projects", docSnap.id);
+      const projectDocSnap = await getDoc(projectDocRef);
+
+      if (projectDocSnap.exists()) {
+        const currentStock = projectDocSnap.data().stock || 0;
+        const updatedStock = currentStock - 1 >= 0 ? currentStock - 1 : 0;
+
+        await updateDoc(projectDocRef, {
+          stock: updatedStock
+        });
+      }
+
+      // Save order and delete from cart
       await setDoc(doc(orderRef, docSnap.id), {
         ...orderData,
         orderedAt: new Date()
       });
+
       await deleteDoc(doc(db, "users", user.uid, "cart", docSnap.id));
     }
 

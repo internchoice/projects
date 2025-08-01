@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profiles | Intern Choice Admin</title>
   <link rel="icon" href="https://internchoice.com/assets/img/intern_logo_t.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
   <style>
     .dashboard-container {
@@ -28,10 +31,11 @@
       background: white;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     }
 
-    th, td {
+    th,
+    td {
       padding: 14px 20px;
       text-align: left;
       border-bottom: 1px solid #ddd;
@@ -68,6 +72,7 @@
     }
   </style>
 </head>
+
 <body>
   <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
   <!-- Navbar -->
@@ -79,7 +84,7 @@
     <button class="nav-toggle" id="nav-toggle">&#9776;</button>
     <div class="nav-links" id="nav-links">
       <a href="dashboard.html">Home</a>
-      <a href="domain.html">Domains</a> 
+      <a href="domain.html">Domains</a>
       <a href="sub.html">Sub Domains</a>
       <a href="profile.html">Profile</a>
       <a href="manage.html">Details</a>
@@ -140,15 +145,20 @@
 
               usersTable.style.display = 'table';
               status.style.display = 'none';
-
               const firstDoc = snapshot.docs[0].data();
-              const headers = Object.keys(firstDoc).filter(h => h !== 'createdAt' && h !== 'uid');
-              tableHeaders.innerHTML = '';
-              headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
-                tableHeaders.appendChild(th);
+              const allKeys = new Set();
+
+              snapshot.forEach(doc => {
+                Object.keys(doc.data()).forEach(key => {
+                  if (key !== "createdAt" && key !== "uid") {
+                    allKeys.add(key);
+                  }
+                });
               });
+
+              const headers = Array.from(allKeys);
+
+
 
               snapshot.forEach(doc => {
                 const user = doc.data();
@@ -202,6 +212,7 @@
     });
   </script>
 
-  <script src="../assets/js/script.js"></script>
+  <script type="module" src="../assets/js/script.js"></script>
 </body>
+
 </html>
